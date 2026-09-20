@@ -653,6 +653,7 @@ main.wrap{padding-bottom:76px}
           <div class="full"><button type="button" class="btn sm" id="qApply">محاسبه با این مختصات</button></div>
         </div>
         <p class="qb-status" id="qStatus" role="status" aria-live="polite"></p>
+        <div class="pp-warn" id="qInsecureWarn" hidden>⚠️ این صفحه از یک نشانی امن (https) باز نشده — به همین دلیل مرورگر گوشی اجازه‌ی دسترسی به GPS و قطب‌نما را نمی‌دهد، حتی اگر دکمه‌ها را بزنید. راه‌حل: این فایل را روی یک هاست واقعی با https (مثلاً GitHub Pages، Netlify یا Cloudflare Pages) بگذارید و از همان نشانی باز کنید؛ باز کردن مستقیم فایل یا لینک آن از تلگرام/بله/ایتا این مشکل را حل نمی‌کند. تا آن زمان، از «انتخاب شهر» برای گرفتن عدد زاویه استفاده کنید و با قطب‌نمای پیش‌فرض گوشی (که یک اپ است، نه سایت) آن زاویه را پیدا کنید.</div>
         <div class="qb-note">گوشی را صاف و دور از فلز و آهنربا نگه دارید. اگر دقت کم بود، آن را چند بار به شکل عدد ۸ حرکت دهید. وقتی حلقه سبز شد و کعبه زیر نشانه‌ی بالا قرار گرفت، رو به قبله‌اید. اگر قطب‌نما کار نکرد، از عدد زاویه با یک قطب‌نمای معمولی استفاده کنید. انحراف مغناطیسی اعمال نمی‌شود و ممکن است چند درجه خطا داشته باشد.</div>
       </div>
     </div>
@@ -2064,11 +2065,17 @@ function setLoc(lat,lon,label){
   sel.innerHTML='<option value="">انتخاب شهر</option>'+Object.keys(cities).map(c=>`<option>${c}</option>`).join('');
   sel.addEventListener('change',()=>{const c=cities[sel.value];if(c)setLoc(c[0],c[1],sel.value)});
   Q('#qApply').addEventListener('click',()=>setLoc(parseFloat(toEn(Q('#qLat').value)),parseFloat(toEn(Q('#qLon').value)),'مختصات دستی'));
+  if(!window.isSecureContext)Q('#qInsecureWarn').hidden=false;
   Q('#qGps').addEventListener('click',()=>{
+    if(!window.isSecureContext){
+      Q('#qInsecureWarn').hidden=false;
+      setStatus('چون این صفحه با https باز نشده، گوشی اجازه‌ی GPS نمی‌دهد. توضیح بالا را ببینید یا شهر خود را از فهرست انتخاب کنید.');
+      return;
+    }
     if(!navigator.geolocation){setStatus('این مرورگر GPS را پشتیبانی نمی‌کند. شهر خود را انتخاب کنید.');return}
-    setStatus('در حال گرفتن موقعیت… ممکن است چند ثانیه طول بکشد.');
+    setStatus('در حال گرفتن موقعیت… ممکن است چند ثانیه طول بکشد و مرورگر از شما اجازه بخواهد.');
     navigator.geolocation.getCurrentPosition(p=>{sel.value='';setLoc(p.coords.latitude,p.coords.longitude,'GPS')},err=>{
-      setStatus(err.code===1?'دسترسی به موقعیت رد شد. در تنظیمات مرورگر اجازه دهید یا شهر خود را انتخاب کنید.':'موقعیت پیدا نشد. به فضای باز بروید یا شهر خود را انتخاب کنید.');
+      setStatus(err.code===1?'دسترسی به موقعیت رد شد. روی آیکون قفل/اطلاعات سایت کنار نشانی صفحه بزنید و دسترسی «موقعیت مکانی» را روی اجازه‌دادن بگذارید، یا شهر خود را انتخاب کنید.':err.code===3?'دریافت موقعیت طول کشید و لغو شد. اگر GPS گوشی روشن است دوباره امتحان کنید یا شهر خود را انتخاب کنید.':'موقعیت پیدا نشد. به فضای باز بروید یا شهر خود را انتخاب کنید.');
     },{enableHighAccuracy:true,timeout:20000,maximumAge:600000});
   });
   const saved=st.get('qLoc',null);
@@ -2104,8 +2111,9 @@ const onOri=e=>{
 let noSignalT=null;
 Q('#qStart').addEventListener('click',()=>{
   if(qibla===null){setStatus('اول موقعیت خود را با GPS یا انتخاب شهر تعیین کنید.');return}
-  if(location.protocol!=='https:'&&location.protocol!=='file:'){
-    setStatus('قطب‌نمای گوشی فقط روی نشانی‌ای که با https شروع شود کار می‌کند (نه http). این صفحه را از یک نشانی https باز کنید، یا از عدد زاویه‌ی بالا با یک قطب‌نمای معمولی کمک بگیرید.');
+  if(!window.isSecureContext){
+    Q('#qInsecureWarn').hidden=false;
+    setStatus('چون این صفحه با https باز نشده، مرورگر اجازه‌ی دسترسی به سنسور قطب‌نما را نمی‌دهد. توضیح بالا را ببینید، یا از عدد زاویه با قطب‌نمای پیش‌فرض گوشی کمک بگیرید.');
     return;
   }
   const start=()=>{
