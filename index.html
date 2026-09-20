@@ -482,6 +482,16 @@ body.battery-save .wxchart,body.battery-save .chartbox{background:#050505!import
 .torch-ov{position:fixed;inset:0;background:#fff;z-index:300;display:none;align-items:center;justify-content:center;cursor:pointer}
 .torch-ov.on{display:flex}
 .torch-ov span{color:#000;opacity:.35;font-size:14px}
+
+/* --- سه صفحه‌ی اصلی --- */
+main.wrap{padding-bottom:76px}
+.page{display:none}
+.page.on{display:block;animation:pgIn .2s ease}
+@keyframes pgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pagenav{position:fixed;bottom:0;inset-inline:0;z-index:60;display:flex;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(18px) saturate(1.3);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.pagenav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px 8px;background:transparent;border:0;color:var(--mute);font-size:11.5px;font-family:inherit;cursor:pointer;transition:color .15s}
+.pagenav button .ic{font-size:21px;line-height:1}
+.pagenav button.on{color:var(--a)}
 </style>
 </head>
 <body>
@@ -505,7 +515,14 @@ body.battery-save .wxchart,body.battery-save .chartbox{background:#050505!import
   </div>
 </header>
 
+<nav class="pagenav" id="pagenav" aria-label="صفحه‌ها">
+  <button type="button" class="on" data-page="home"><span class="ic">🏠</span>خانه</button>
+  <button type="button" data-page="sites"><span class="ic">🔗</span>سایت‌ها</button>
+  <button type="button" data-page="tips"><span class="ic">🛟</span>نکات</button>
+</nav>
+
 <main class="wrap">
+  <div class="page on" id="page-home" data-page="home">
   <!-- امروز -->
   <section class="today" aria-label="تاریخ امروز و اوقات شرعی">
     <div class="today-head">
@@ -585,7 +602,9 @@ body.battery-save .wxchart,body.battery-save .chartbox{background:#050505!import
       <div class="newsscroll"><div class="news" id="news"></div></div>
     </section>
   </div>
+  </div>
 
+  <div class="page" id="page-tips" data-page="tips">
   <!-- شماره‌های اضطراری -->
   <section class="panel" aria-label="شماره‌های اضطراری" style="margin-top:18px">
     <div class="ph">
@@ -774,14 +793,18 @@ body.battery-save .wxchart,body.battery-save .chartbox{background:#050505!import
       <button type="button" class="emg-btn ghost" id="sirenBtn" style="margin-top:10px">📢 پخش آژیر/سوت</button>
     </div>
   </section>
+  </div>
+
   <div class="card-full" id="cardFull"><button type="button" class="cf-close" id="cfClose">✕ بستن</button><div id="cardFullBody"></div></div>
   <div class="torch-ov" id="torchOv"><span>برای خاموش کردن لمس کنید</span></div>
 
+  <div class="page" id="page-sites" data-page="sites">
   <!-- سایت‌ها -->
   <nav class="cats" id="cats" aria-label="دسته‌ها"></nav>
   <div id="personal"></div>
   <div id="sections"></div>
   <p class="empty" id="empty">سایتی با این عبارت پیدا نشد. با دکمه‌ی «＋ سایت من» می‌توانید آن را خودتان اضافه کنید.</p>
+  </div>
 </main>
 
 <footer><div class="wrap"><b class="grad">سبهد</b> · سایت برنامه‌های داخلی<br>
@@ -836,6 +859,16 @@ const CONFIG={
 /* ===== ابزارها ===== */
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={get(k,d){try{const v=localStorage.getItem('sabhad:'+k);return v==null?d:JSON.parse(v)}catch{return d}},set(k,v){try{localStorage.setItem('sabhad:'+k,JSON.stringify(v));return true}catch{return false}}};
+
+/* ===== سه صفحه‌ی اصلی ===== */
+function showPage(p){
+  $$('.page').forEach(el=>el.classList.toggle('on',el.dataset.page===p));
+  $$('#pagenav button').forEach(b=>b.classList.toggle('on',b.dataset.page===p));
+  store.set('page',p);
+  window.scrollTo({top:0,behavior:'instant'in window?'instant':'auto'});
+}
+$$('#pagenav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+showPage(store.get('page','home'));
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const norm=s=>String(s).toLowerCase().replace(/ي/g,'ی').replace(/ك/g,'ک').replace(/[\u200c\u200d]/g,' ')
   .replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
@@ -1417,9 +1450,9 @@ function initModal(){
 }
 function initSites(){
   renderSites();initModal();
-  $('#q').addEventListener('input',applyFilter);
+  $('#q').addEventListener('input',()=>{applyFilter();if($('#q').value.trim())showPage('sites')});
   document.addEventListener('keydown',e=>{
-    if(e.key==='/'&&!/input|textarea|select/i.test(document.activeElement.tagName)){e.preventDefault();$('#q').focus()}
+    if(e.key==='/'&&!/input|textarea|select/i.test(document.activeElement.tagName)){e.preventDefault();showPage('sites');$('#q').focus()}
     if(e.key==='Escape'&&document.activeElement===$('#q')){$('#q').value='';applyFilter();$('#q').blur()}
   });
   document.addEventListener('click',e=>{
@@ -1798,7 +1831,7 @@ function initChartInteraction(){
   box.addEventListener('pointerleave',e=>{if(e.pointerType!=='touch')hideCross()});
   box.addEventListener('dblclick',()=>{if(CH.tool==='move'){resetView();schedule()}});
   window.addEventListener('keydown',e=>{if(e.key==='Escape'){if(CH.fs)toggleFull(false);CH.tmp=null;schedule()}});
-  let rt;new ResizeObserver(()=>{clearTimeout(rt);rt=setTimeout(()=>{if(CH.s)drawChart()},80)}).observe(box);
+  let rt;new ResizeObserver(()=>{clearTimeout(rt);rt=setTimeout(()=>{if(CH.s&&box.clientWidth>0)drawChart()},80)}).observe(box);
 }
 function toggleFull(on){
   CH.fs=on===undefined?!CH.fs:on;
@@ -2068,17 +2101,28 @@ const onOri=e=>{
   if(gotAbs||e.alpha===null)return;
   if(e.absolute)pushHeading(tiltHeading(e.alpha,e.beta,e.gamma));
 };
+let noSignalT=null;
 Q('#qStart').addEventListener('click',()=>{
   if(qibla===null){setStatus('اول موقعیت خود را با GPS یا انتخاب شهر تعیین کنید.');return}
+  if(location.protocol!=='https:'&&location.protocol!=='file:'){
+    setStatus('قطب‌نمای گوشی فقط روی نشانی‌ای که با https شروع شود کار می‌کند (نه http). این صفحه را از یک نشانی https باز کنید، یا از عدد زاویه‌ی بالا با یک قطب‌نمای معمولی کمک بگیرید.');
+    return;
+  }
   const start=()=>{
     if(listening)return;listening=true;
     window.addEventListener('deviceorientationabsolute',onAbs,true);
     window.addEventListener('deviceorientation',onOri,true);
-    setStatus('قطب‌نما روشن شد. گوشی را صاف نگه دارید و آهسته بچرخانید. اگر صفحه حرکت نکرد، این مرورگر یا دستگاه سنسور ندارد و باید از عدد زاویه استفاده کنید.');
+    setStatus('قطب‌نما روشن شد. گوشی را صاف نگه دارید و آهسته به شکل عدد ۸ بچرخانید تا سنسور کالیبره شود.');
+    clearTimeout(noSignalT);
+    noSignalT=setTimeout(()=>{
+      if(heading===null){
+        setStatus('گوشی هیچ داده‌ای از سنسور جهت‌یاب نفرستاد. دلایل رایج: ۱) این صفحه داخل مرورگر درون‌برنامه‌ای مثل تلگرام/اینستاگرام باز شده — آن را با دکمه‌ی «باز کردن در مرورگر» در کروم یا سافاری باز کنید. ۲) دسترسی «حرکت و جهت» برای این سایت در تنظیمات مرورگر مسدود است. ۳) گوشی سنسور قطب‌نما ندارد. در همه‌ی این حالت‌ها از عدد زاویه‌ی بالا با یک قطب‌نمای معمولی یا اپ نقشه استفاده کنید.');
+      }
+    },4000);
   };
   if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){
     DeviceOrientationEvent.requestPermission().then(r=>{
-      if(r==='granted')start();else setStatus('اجازه‌ی دسترسی به سنسور داده نشد. از عدد زاویه استفاده کنید.');
+      if(r==='granted')start();else setStatus('اجازه‌ی دسترسی به سنسور داده نشد. در تنظیمات Safari ← این سایت، دسترسی «حرکت و جهت» را باز کنید، یا از عدد زاویه استفاده کنید.');
     }).catch(()=>setStatus('دسترسی به سنسور ممکن نشد. از عدد زاویه استفاده کنید.'));
   }else start();
 });
