@@ -332,6 +332,156 @@ footer{margin-top:64px;border-top:1px solid var(--line);padding:26px 0 44px;colo
   .brand b{font-size:20px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* ============ قبله‌نما و آمادگی بحران (افزوده) ============ */
+.qb{display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:22px;align-items:center}
+.qb-dial{display:flex;justify-content:center}
+.qb-dial svg{width:100%;max-width:340px;height:auto;display:block}
+.qb-ring{fill:var(--card);stroke:var(--line);stroke-width:3;transition:stroke .2s}
+.qb.aligned .qb-ring{stroke:var(--up);stroke-width:6}
+.qb-read{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.qb-read div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px 12px}
+.qb-read b{display:block;font-size:24px;font-weight:800;line-height:1.5}
+.qb-read span{font-size:12px;color:var(--mute)}
+.qb-fields{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:8px}
+.qb-fields .full{grid-column:1/-1}
+.qb label,.pp label.pl{display:block;font-size:12.5px;color:var(--mute);margin:0 0 3px}
+.qb select,.qb input,.pp input.pi,.pp textarea{
+  width:100%;height:42px;padding:0 12px;border:1px solid var(--line);background:var(--card);border-radius:12px;outline:0;color:var(--ink)}
+.pp textarea{height:auto;min-height:88px;padding:8px 12px;resize:vertical;font-family:inherit;line-height:1.8}
+.qb select:focus,.qb input:focus,.pp input.pi:focus,.pp textarea:focus{border-color:var(--a)}
+.qb-status{min-height:1.7em;font-size:13px;color:var(--mute);margin:10px 0 0}
+.qb-note{font-size:12px;color:var(--mute);line-height:1.9;margin-top:8px;border:1px dashed var(--line);border-radius:14px;padding:8px 12px}
+@media (max-width:760px){.qb{grid-template-columns:1fr}}
+
+.pp-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.pp-pane{display:none}
+.pp-pane.on{display:block}
+.pp-prog{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 14px;margin-bottom:12px}
+.pp-bar{height:10px;border-radius:99px;background:var(--card2);overflow:hidden;margin-top:6px}
+.pp-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--b));transition:width .25s}
+.pp-groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:12px;align-items:start}
+.pp-g{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:12px 14px}
+.pp-g h3{margin:0 0 4px;font-size:16px}
+.pp-it{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px dashed var(--line);cursor:pointer}
+.pp-it:first-of-type{border-top:0}
+.pp-it input{width:22px;height:22px;flex:none;margin-top:3px;accent-color:var(--a)}
+.pp-it b{font-weight:600;font-size:14.5px}
+.pp-it small{display:block;color:var(--mute);font-size:12px;line-height:1.7}
+.pp-it.done b{text-decoration:line-through;color:var(--mute);font-weight:400}
+.pp-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:10px;align-items:start}
+.pp-d{background:var(--card);border:1px solid var(--line);border-radius:18px}
+.pp-d summary{list-style:none;cursor:pointer;padding:11px 14px;display:flex;gap:10px;align-items:center;font-weight:700;font-size:14.5px}
+.pp-d summary::-webkit-details-marker{display:none}
+.pp-d summary .n{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;color:var(--on-a);background:linear-gradient(135deg,var(--a),var(--b))}
+.pp-d summary::after{content:"＋";margin-inline-start:auto;color:var(--mute);font-weight:400}
+.pp-d[open] summary::after{content:"－"}
+.pp-body{padding:2px 16px 12px;border-top:1px solid var(--line);font-size:14px;line-height:2}
+.pp-body p{margin:8px 0}
+.pp-body ul{margin:6px 0;padding-inline-start:22px}
+.pp-body li{margin:3px 0}
+.pp-book h3{font-size:17px;margin:20px 0 2px;scroll-margin-top:90px}
+.pp-book p,.pp-book li{font-size:14.5px;line-height:2;max-width:75ch}
+.pp-book ul{padding-inline-start:22px;margin:6px 0}
+.pp-toc{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+.pp-fam{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.pp-fam .full{grid-column:1/-1}
+.pp-warn{font-size:12.5px;color:var(--g);background:color-mix(in srgb,var(--g) 12%,transparent);border-radius:14px;padding:8px 14px;margin-top:12px;line-height:1.9}
+
+/* --- ابزارهای اضطراری --- */
+.emg-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px}
+.emg-row .f{flex:1 1 180px;min-width:160px}
+.emg-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:linear-gradient(135deg,var(--a),var(--b));color:var(--on-a,#fff);border-radius:12px;padding:11px 18px;font-size:14.5px;font-weight:700;cursor:pointer;transition:transform .15s,opacity .15s}
+.emg-btn:hover{transform:translateY(-1px)}
+.emg-btn.ghost{background:var(--card);color:var(--ink)}
+.emg-btn.warn{background:color-mix(in srgb,var(--down,#ff6b7d) 85%,var(--card))}
+.emg-btn[disabled]{opacity:.5;cursor:not-allowed;transform:none}
+.contact-list{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.contact-it{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:9px 14px}
+.contact-it input[type=checkbox]{width:19px;height:19px;accent-color:var(--a);flex:none}
+.contact-it .ci-name{font-weight:700;font-size:14px}
+.contact-it .ci-phone{color:var(--mute);font-size:12.5px;direction:ltr;margin-inline-start:auto}
+.contact-it button{flex:none;border:0;background:transparent;color:var(--mute);font-size:15px;cursor:pointer;padding:2px 4px}
+.contact-empty{color:var(--mute);font-size:13px;text-align:center;padding:14px}
+.emg-note{font-size:12px;color:var(--mute);line-height:1.9;margin-top:6px}
+.emg-status{font-size:13px;margin-top:10px;min-height:20px}
+.emg-status.ok{color:var(--up,#3ddc97)}
+.emg-status.err{color:var(--down,#ff6b7d)}
+
+.card-full{position:fixed;inset:0;z-index:200;background:#000;color:#fff;display:none;flex-direction:column;padding:26px 22px;overflow:auto;font-size:20px;line-height:2.1}
+.card-full.on{display:flex}
+.card-full h2{font-size:26px;margin:0 0 6px;color:#ff6b7d}
+.card-full .cf-close{position:absolute;top:14px;left:14px;background:#1a1a1a;color:#fff;border:1px solid #333;border-radius:10px;padding:8px 16px;font-size:14px}
+.card-full .cf-row{border-top:1px dashed #333;padding:10px 0}
+.card-full .cf-row b{display:block;font-size:13px;color:#9aa;margin-bottom:3px;font-weight:400}
+.card-full .cf-row span{white-space:pre-wrap}
+.card-full .cf-empty{color:#9aa;font-size:16px}
+
+.aid-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.aid-box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px 20px;display:none;font-size:15.5px;line-height:2.1}
+.aid-box.on{display:block;animation:aidIn .25s ease}
+@keyframes aidIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.aid-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.aid-ic{flex:none;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,color-mix(in srgb,var(--a) 35%,var(--card)),color-mix(in srgb,var(--b) 35%,var(--card)))}
+.aid-head h3{margin:0;font-size:17.5px}
+.aid-head .sub{margin-top:1px}
+.aid-sev{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+.aid-sev span{font-size:12px;font-weight:700;border-radius:999px;padding:4px 12px;border:1px solid var(--line)}
+.aid-sev .mild{color:var(--up,#3ddc97);border-color:color-mix(in srgb,var(--up,#3ddc97) 50%,var(--line));background:color-mix(in srgb,var(--up,#3ddc97) 10%,transparent)}
+.aid-sev .mod{color:var(--g);border-color:color-mix(in srgb,var(--g) 50%,var(--line));background:color-mix(in srgb,var(--g) 10%,transparent)}
+.aid-sev .sev{color:var(--down,#ff6b7d);border-color:color-mix(in srgb,var(--down,#ff6b7d) 50%,var(--line));background:color-mix(in srgb,var(--down,#ff6b7d) 10%,transparent)}
+.aid-steps{display:flex;flex-direction:column;gap:0}
+.aid-step{display:flex;gap:14px;padding:12px 0;border-top:1px dashed var(--line)}
+.aid-step:first-child{border-top:0;padding-top:4px}
+.aid-step .n{flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;display:grid;place-items:center;font-size:13px;font-weight:800}
+.aid-step .c b{display:block;font-size:15.5px;margin-bottom:2px}
+.aid-step .c p{margin:0;color:var(--ink);opacity:.92;font-size:14.5px;line-height:1.95}
+.aid-step .c p+p{margin-top:6px}
+.aid-callout{display:flex;gap:10px;align-items:flex-start;border-radius:14px;padding:12px 14px;margin-top:14px;font-size:14px;line-height:1.95}
+.aid-callout.danger{background:color-mix(in srgb,var(--down,#ff6b7d) 12%,transparent);color:var(--ink);border:1px solid color-mix(in srgb,var(--down,#ff6b7d) 40%,var(--line))}
+.aid-callout.info{background:color-mix(in srgb,var(--a) 10%,transparent);border:1px solid color-mix(in srgb,var(--a) 35%,var(--line))}
+.aid-callout .ic{flex:none;font-size:18px}
+.aid-shock{margin-top:14px;background:var(--card2);border-radius:16px;padding:12px 16px}
+.aid-shock h4{margin:0 0 6px;font-size:14.5px}
+.aid-shock ul{margin:0;padding-inline-start:20px;font-size:14px;line-height:1.95}
+#aid-bleed .aid-ic{background:linear-gradient(135deg,#ff6b7d,#ff9a6b)}
+#aid-burn .aid-ic{background:linear-gradient(135deg,#ff9a4d,#ffd166)}
+#aid-frac .aid-ic{background:linear-gradient(135deg,#7c9cff,#67e8f9)}
+#aid-cpr .aid-ic{background:linear-gradient(135deg,#ff6b9c,#ff9ac3)}
+#aid-bleed{border-inline-start:4px solid #ff6b7d}
+#aid-burn{border-inline-start:4px solid #ff9a4d}
+#aid-frac{border-inline-start:4px solid #7c9cff}
+#aid-cpr{border-inline-start:4px solid #ff6b9c}
+.last-card{position:relative}
+.last-card .dot{position:absolute;top:14px;left:16px;width:9px;height:9px;border-radius:50%}
+.last-card .dot.g{background:var(--up,#3ddc97);box-shadow:0 0 0 4px color-mix(in srgb,var(--up,#3ddc97) 25%,transparent)}
+.last-card .dot.y{background:var(--g);box-shadow:0 0 0 4px color-mix(in srgb,var(--g) 25%,transparent)}
+.last-card .dot.r{background:var(--down,#ff6b7d);box-shadow:0 0 0 4px color-mix(in srgb,var(--down,#ff6b7d) 25%,transparent)}
+.metro{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:14px;background:var(--card2);border-radius:16px;padding:14px}
+.metro-dot{width:34px;height:34px;border-radius:50%;background:var(--a);flex:none;transition:transform .08s}
+.metro-dot.beat{transform:scale(1.35)}
+.metro input[type=range]{flex:1;min-width:120px;accent-color:var(--a)}
+
+.calm-wrap{display:flex;flex-direction:column;align-items:center;gap:18px;padding:26px 10px}
+.calm-ring{width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--a) 30%,var(--card)),color-mix(in srgb,var(--b) 40%,var(--card)));display:grid;place-items:center;font-size:18px;font-weight:700;transition:transform 4s ease-in-out;transform:scale(.7)}
+.calm-ring.big{transform:scale(1.15)}
+
+.pwr-toggle{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px}
+.pwr-sw{width:52px;height:30px;border-radius:99px;background:var(--card2);border:1px solid var(--line);position:relative;cursor:pointer;flex:none}
+.pwr-sw i{position:absolute;top:2px;right:2px;width:24px;height:24px;border-radius:50%;background:var(--mute);transition:all .2s}
+.pwr-sw.on{background:color-mix(in srgb,var(--a) 40%,var(--card2))}
+.pwr-sw.on i{right:24px;background:var(--a)}
+body.battery-save{--bg:#000!important;--panel:#000!important;--card:#050505!important;--card2:#0a0a0a!important;--line:#1c1c1c!important;--ink:#eee!important;--mute:#8a8a8a!important}
+body.battery-save .wxchart,body.battery-save .chartbox{background:#050505!important}
+
+.last-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.last-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.last-card b{display:block;font-size:14.5px;margin-bottom:4px}
+.last-card span{color:var(--mute);font-size:12.5px}
+
+.torch-ov{position:fixed;inset:0;background:#fff;z-index:300;display:none;align-items:center;justify-content:center;cursor:pointer}
+.torch-ov.on{display:flex}
+.torch-ov span{color:#000;opacity:.35;font-size:14px}
 </style>
 </head>
 <body>
@@ -444,6 +594,188 @@ footer{margin-top:64px;border-top:1px solid var(--line);padding:26px 0 44px;colo
     <div class="sos" id="sos"></div>
     <p class="sosnote">شماره‌های ۱۱۳ و ۱۱۴ برای گزارش موارد مشکوک یا امنیتی‌اند، نه اورژانس؛ در حادثه‌ی جانی از ۱۱۰/۱۱۵/۱۲۵ استفاده کنید.</p>
   </section>
+
+  <!-- قبله‌نما -->
+  <section class="panel" id="qibla" aria-label="قبله‌نما" style="margin-top:18px">
+    <div class="ph">
+      <div><h2>🕋 قبله‌نما</h2><div class="sub">بدون اینترنت؛ فقط با GPS و قطب‌نمای خود گوشی</div></div>
+      <div class="ctl"><button type="button" class="mini" id="qGps">📍 موقعیت من</button><button type="button" class="mini on" id="qStart">🧭 روشن کردن قطب‌نما</button></div>
+    </div>
+    <div class="qb" id="qbBox">
+      <div class="qb-dial">
+        <svg id="qDial" viewBox="-160 -160 320 320" role="img" aria-label="قبله‌نما">
+          <polygon points="0,-152 -11,-130 11,-130" fill="var(--a)"/>
+          <g id="qRot">
+            <circle class="qb-ring" r="118"/>
+            <g id="qTicks" stroke="var(--mute)"></g>
+            <text x="0" y="-92" text-anchor="middle" font-size="20" font-weight="700" fill="var(--ink)">ش</text>
+            <text x="92" y="7" text-anchor="middle" font-size="18" fill="var(--mute)">ق</text>
+            <text x="0" y="106" text-anchor="middle" font-size="18" fill="var(--mute)">ج</text>
+            <text x="-92" y="7" text-anchor="middle" font-size="18" fill="var(--mute)">غ</text>
+            <g id="qKaaba">
+              <line x1="0" y1="0" x2="0" y2="-96" stroke="var(--b)" stroke-width="3" stroke-dasharray="2 6" stroke-linecap="round"/>
+              <rect x="-15" y="-140" width="30" height="30" rx="5" fill="#231a12"/>
+              <path d="M-15 -130h30" stroke="var(--g)" stroke-width="3"/>
+              <rect x="-4" y="-126" width="8" height="13" rx="1" fill="var(--g)"/>
+            </g>
+          </g>
+          <circle r="5" fill="var(--ink)"/>
+        </svg>
+      </div>
+      <div class="qb-side">
+        <div class="qb-read">
+          <div><b id="qAngle" class="num">—</b><span>زاویه قبله از شمال</span></div>
+          <div><b id="qDist" class="num">—</b><span>فاصله تا کعبه (کیلومتر)</span></div>
+        </div>
+        <div class="qb-fields">
+          <div class="full"><label for="qCity">شهر</label><select id="qCity" aria-label="شهر برای قبله‌نما"></select></div>
+          <div><label for="qLat">عرض جغرافیایی</label><input id="qLat" inputmode="decimal" dir="ltr" placeholder="35.6892"></div>
+          <div><label for="qLon">طول جغرافیایی</label><input id="qLon" inputmode="decimal" dir="ltr" placeholder="51.3890"></div>
+          <div class="full"><button type="button" class="btn sm" id="qApply">محاسبه با این مختصات</button></div>
+        </div>
+        <p class="qb-status" id="qStatus" role="status" aria-live="polite"></p>
+        <div class="qb-note">گوشی را صاف و دور از فلز و آهنربا نگه دارید. اگر دقت کم بود، آن را چند بار به شکل عدد ۸ حرکت دهید. وقتی حلقه سبز شد و کعبه زیر نشانه‌ی بالا قرار گرفت، رو به قبله‌اید. اگر قطب‌نما کار نکرد، از عدد زاویه با یک قطب‌نمای معمولی استفاده کنید. انحراف مغناطیسی اعمال نمی‌شود و ممکن است چند درجه خطا داشته باشد.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- آمادگی جنگ و بحران -->
+  <section class="panel pp" id="prep" aria-label="آمادگی جنگ و بحران" style="margin-top:18px">
+    <div class="ph">
+      <div><h2>🛟 آمادگی جنگ و بحران</h2><div class="sub">چک‌لیست، راهنما و دفترچه؛ آفلاین و ذخیره‌شده روی همین دستگاه</div></div>
+    </div>
+    <div class="pp-tabs" id="ppTabs" role="tablist">
+      <button type="button" class="mini on" role="tab" data-t="check">✅ چک‌لیست کیف</button>
+      <button type="button" class="mini" role="tab" data-t="guide">📋 ۱۳ اقدام ضروری</button>
+      <button type="button" class="mini" role="tab" data-t="book">📖 دفترچه لوازم</button>
+      <button type="button" class="mini" role="tab" data-t="fam">👨‍👩‍👧 برگه خانواده</button>
+    </div>
+    <div class="pp-pane on" id="pp-check">
+      <div class="pp-prog"><span id="ppText"></span><div class="pp-bar"><i id="ppBar"></i></div></div>
+      <div class="pp-groups" id="ppGroups"></div>
+      <div class="row"><button type="button" class="btn sm" id="ppReset">پاک کردن همه‌ی تیک‌ها</button></div>
+    </div>
+    <div class="pp-pane" id="pp-guide">
+      <p class="sub" style="margin:0 0 10px">راهنمای کوتاه برای افزایش امنیت شما. روی هر مورد بزنید.</p>
+      <div class="pp-list" id="ppGuide"></div>
+    </div>
+    <div class="pp-pane pp-book" id="pp-book">
+      <p class="sub" style="margin:0 0 10px">با توجه به نیازهای فردی، ممکن است موارد دیگری را هم به فهرست خود اضافه کنید.</p>
+      <div class="pp-toc" id="ppToc"></div>
+      <div id="ppBook"></div>
+    </div>
+    <div class="pp-pane" id="pp-fam">
+      <p class="sub" style="margin:0 0 10px">این اطلاعات فقط روی همین دستگاه ذخیره می‌شود. شماره‌ها را روی کاغذ هم بنویسید تا با خاموش شدن گوشی هم در دسترس باشند.</p>
+      <div class="pp-fam">
+        <div><label class="pl" for="fm1">مکان ملاقات اول (نزدیک خانه)</label><input class="pi" id="fm1" data-k="meet1"></div>
+        <div><label class="pl" for="fm2">مکان ملاقات دوم (بیرون از محله)</label><input class="pi" id="fm2" data-k="meet2"></div>
+        <div><label class="pl" for="fm3">شماره تلفن اعضای خانواده و آشنایان</label><textarea id="fm3" data-k="phones"></textarea></div>
+        <div><label class="pl" for="fm4">شماره‌ها و آدرس‌های ضروری (پزشک، داروخانه، پناهگاه)</label><textarea id="fm4" data-k="urgent"></textarea></div>
+        <div><label class="pl" for="fm5">داروها، حساسیت‌ها و گروه خونی</label><textarea id="fm5" data-k="medical"></textarea></div>
+        <div><label class="pl" for="fm6">وظیفه‌ی هر نفر</label><textarea id="fm6" data-k="roles"></textarea></div>
+      </div>
+      <div class="pp-warn">اعضای خانواده باید بدانند اگر از هم جدا شدند کجا یکدیگر را پیدا کنند.</div>
+    </div>
+  </section>
+
+  <!-- ابزارهای اضطراری -->
+  <section class="panel pp" id="emg" aria-label="ابزارهای اضطراری" style="margin-top:18px">
+    <div class="ph">
+      <div><h2>🆘 ابزارهای اضطراری</h2><div class="sub">پیام سالمم، کارت اضطراری، کمک‌های اولیه، آرام‌سازی و صرفه‌جویی باتری؛ همه آفلاین</div></div>
+    </div>
+    <div class="pp-tabs" id="emgTabs" role="tablist">
+      <button type="button" class="mini on" role="tab" data-e="msg">📨 پیام «سالمم»</button>
+      <button type="button" class="mini" role="tab" data-e="card">🪪 کارت اضطراری</button>
+      <button type="button" class="mini" role="tab" data-e="aid">🩹 کمک‌های اولیه</button>
+      <button type="button" class="mini" role="tab" data-e="calm">🌬️ آرام‌سازی</button>
+      <button type="button" class="mini" role="tab" data-e="pwr">🔋 صرفه‌جویی باتری</button>
+      <button type="button" class="mini" role="tab" data-e="last">🕓 آخرین داده</button>
+      <button type="button" class="mini" role="tab" data-e="light">🔦 چراغ‌قوه</button>
+    </div>
+
+    <!-- پیام سالمم -->
+    <div class="pp-pane on" id="emg-msg">
+      <p class="sub" style="margin:0 0 10px">مخاطبان را اضافه کنید (یا از مخاطبین دستگاه انتخاب کنید)، سپس با یک لمس پیام «سالمم» به همراه موقعیت فعلی‌تان ارسال شود.</p>
+      <div class="emg-row">
+        <div class="f"><label class="pl">نام</label><input class="pi" id="ctName" placeholder="مثلاً مامان"></div>
+        <div class="f"><label class="pl">شماره تلفن</label><input class="pi" id="ctPhone" placeholder="09xxxxxxxxx" style="direction:ltr;text-align:left"></div>
+        <button type="button" class="emg-btn ghost" id="ctAdd">➕ افزودن</button>
+        <button type="button" class="emg-btn ghost" id="ctPick">📇 انتخاب از مخاطبین گوشی</button>
+      </div>
+      <div class="contact-list" id="ctList"></div>
+      <div class="emg-row" style="margin-top:4px">
+        <button type="button" class="emg-btn" id="sendSafe">✅ ارسال «سالمم» با موقعیت من</button>
+        <button type="button" class="emg-btn ghost" id="copySafe">📋 کپی متن پیام</button>
+      </div>
+      <p class="emg-status" id="safeStatus" role="status" aria-live="polite"></p>
+      <div class="emg-note">روی گوشی، پس از زدن دکمه، صفحه‌ی پیامک با متن و مخاطبان انتخاب‌شده باز می‌شود (نیاز به اینترنت ندارد). روی لپ‌تاپ لینک پیامک باز نمی‌شود؛ از «کپی متن پیام» استفاده کنید و آن را در ایتا، بله یا هر برنامه‌ی دیگری بچسبانید. دکمه‌ی «انتخاب از مخاطبین گوشی» فقط در برخی مرورگرهای اندروید کار می‌کند.</div>
+    </div>
+
+    <!-- کارت اضطراری -->
+    <div class="pp-pane" id="emg-card">
+      <p class="sub" style="margin:0 0 10px">این کارت از اطلاعات تب «برگه خانواده» ساخته می‌شود. تمام‌صفحه و با فونت درشت است؛ حتی می‌توان بدون باز کردن کل برنامه از آن اسکرین‌شات گرفت.</p>
+      <button type="button" class="emg-btn warn" id="showCard">🪪 نمایش کارت اضطراری تمام‌صفحه</button>
+      <div class="emg-note">اگر بخش «برگه خانواده» را خالی گذاشته‌اید، ابتدا آن را پر کنید تا اطلاعات این کارت کامل شود.</div>
+    </div>
+
+    <!-- کمک‌های اولیه -->
+    <div class="pp-pane" id="emg-aid">
+      <div class="aid-tabs" id="aidTabs">
+        <button type="button" class="mini on" data-a="bleed">🩸 خونریزی</button>
+        <button type="button" class="mini" data-a="burn">🔥 سوختگی</button>
+        <button type="button" class="mini" data-a="frac">🦴 شکستگی</button>
+        <button type="button" class="mini" data-a="cpr">❤️ CPR</button>
+      </div>
+      <div class="aid-box on" id="aid-bleed"></div>
+      <div class="aid-box" id="aid-burn"></div>
+      <div class="aid-box" id="aid-frac"></div>
+      <div class="aid-box" id="aid-cpr">
+        <div id="aid-cpr-text"></div>
+        <div class="metro">
+          <div class="metro-dot" id="metroDot"></div>
+          <button type="button" class="emg-btn ghost" id="metroToggle">▶ شروع مترونوم</button>
+          <span style="font-size:13px;color:var(--mute)">ضرب در دقیقه: <b id="metroBpmLbl">110</b></span>
+          <input type="range" id="metroBpm" min="100" max="120" step="1" value="110">
+        </div>
+      </div>
+      <div class="emg-note">این راهنما جایگزین آموزش رسمی نیست. برای آموزش کامل و معتبر کمک‌های اولیه و CPR به دوره‌های هلال‌احمر مراجعه کنید.</div>
+    </div>
+
+    <!-- آرام‌سازی -->
+    <div class="pp-pane" id="emg-calm">
+      <p class="sub" style="margin:0 0 10px">تمرین تنفس برای مدیریت استرس (اقدام ۱۲ در «۱۳ اقدام ضروری»). دنبال کادر و متن پیش بروید.</p>
+      <div class="calm-wrap">
+        <div class="calm-ring" id="calmRing">شروع کنید</div>
+        <button type="button" class="emg-btn" id="calmToggle">▶ شروع تمرین تنفس</button>
+      </div>
+    </div>
+
+    <!-- صرفه‌جویی باتری -->
+    <div class="pp-pane" id="emg-pwr">
+      <div class="pwr-toggle">
+        <div class="pwr-sw" id="pwrSw" role="switch" aria-checked="false" tabindex="0"><i></i></div>
+        <div><b>حالت صرفه‌جویی باتری</b><div class="sub" style="margin-top:2px">پوسته کاملاً سیاه می‌شود و به‌روزرسانی خودکار قیمت و خبر خاموش می‌شود.</div></div>
+      </div>
+      <div class="emg-note">به‌روزرسانی با دکمه‌های «↻ به‌روزرسانی» و «↻ تازه‌سازی» همچنان دستی در دسترس است. وضعیت با بستن و باز کردن برنامه هم حفظ می‌شود.</div>
+    </div>
+
+    <!-- آخرین داده -->
+    <div class="pp-pane" id="emg-last">
+      <p class="sub" style="margin:0 0 10px">آخرین قیمت و خبری که با موفقیت دریافت شده، حتی اگر الان قطعی اینترنت باشید.</p>
+      <div class="last-grid" id="lastGrid"></div>
+      <button type="button" class="emg-btn ghost" id="lastRefresh" style="margin-top:12px">↻ به‌روزرسانی این بخش</button>
+    </div>
+
+    <!-- چراغ‌قوه -->
+    <div class="pp-pane" id="emg-light">
+      <p class="sub" style="margin:0 0 10px">صفحه با حداکثر نور سفید می‌شود تا مثل چراغ‌قوه استفاده شود. صفحه‌نمایش لپ‌تاپ و گوشی را روشن‌تر کنید.</p>
+      <button type="button" class="emg-btn" id="torchBtn">🔦 روشن کردن صفحه‌ی سفید</button>
+      <div class="emg-note">آژیر صوتی: دکمه‌ی زیر برای جلب توجه اطرافیان صدای بلند پخش می‌کند.</div>
+      <button type="button" class="emg-btn ghost" id="sirenBtn" style="margin-top:10px">📢 پخش آژیر/سوت</button>
+    </div>
+  </section>
+  <div class="card-full" id="cardFull"><button type="button" class="cf-close" id="cfClose">✕ بستن</button><div id="cardFullBody"></div></div>
+  <div class="torch-ov" id="torchOv"><span>برای خاموش کردن لمس کنید</span></div>
 
   <!-- سایت‌ها -->
   <nav class="cats" id="cats" aria-label="دسته‌ها"></nav>
@@ -1523,7 +1855,7 @@ function initChart(){
 function initPrices(){
   const c=store.get('priceCache',null);
   renderTicks(c?c.P:null,!c);initChart();loadChart();loadPrices();
-  setInterval(()=>{if(!document.hidden){loadPrices();if(!CH.sampleMode)loadChart()}},CONFIG.priceEvery*1000);
+  setInterval(()=>{if(!document.hidden&&!window.__batterySave){loadPrices();if(!CH.sampleMode)loadChart()}},CONFIG.priceEvery*1000);
   $('#priceRefresh').addEventListener('click',()=>{loadPrices();loadChart();toast('در حال به‌روزرسانی…')});
 }
 
@@ -1602,7 +1934,7 @@ async function prefetchOthers(){
 }
 function initNews(){
   loadNews();prefetchOthers();
-  setInterval(()=>{if(!document.hidden){loadNews();prefetchOthers()}},CONFIG.newsEvery*1000);
+  setInterval(()=>{if(!document.hidden&&!window.__batterySave){loadNews();prefetchOthers()}},CONFIG.newsEvery*1000);
   $('#newsRefresh').addEventListener('click',()=>{loadNews();toast('در حال تازه‌سازی…')});
   $('#newsTabs').addEventListener('click',e=>{const b=e.target.closest('[data-id]');if(!b)return;newsState.id=b.dataset.id;store.set('newsSrc',b.dataset.id);loadNews()});
 }
@@ -1627,6 +1959,545 @@ function initInstall(){
 /* ===== شروع ===== */
 initToday();initSites();initTheme();initPrices();initNews();initInstall();initWX();initSOS();
 
+</script>
+<script>
+/* ===== قبله‌نما و آمادگی جنگ و بحران (افزوده؛ مستقل از بقیه‌ی برنامه) ===== */
+(function(){
+try{
+const Q=s=>document.querySelector(s);
+const st=(typeof store!=='undefined')?store:{get:(k,d)=>d,set(){}};
+const F=x=>(typeof fa==='function')?fa(String(x)):String(x);
+const NF=n=>Number(n).toLocaleString('fa-IR');
+const toEn=s=>String(s).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[٫,]/g,'.');
+
+/* ---------- قبله‌نما ---------- */
+const KAABA={lat:21.4225,lon:39.8262};
+const toRad=d=>d*Math.PI/180, toDeg=r=>r*180/Math.PI;
+function qiblaBearing(lat,lon){
+  const p1=toRad(lat),p2=toRad(KAABA.lat),dl=toRad(KAABA.lon-lon);
+  const y=Math.sin(dl)*Math.cos(p2);
+  const x=Math.cos(p1)*Math.sin(p2)-Math.sin(p1)*Math.cos(p2)*Math.cos(dl);
+  return (toDeg(Math.atan2(y,x))+360)%360;
+}
+function distKm(lat,lon){
+  const R=6371,p1=toRad(lat),p2=toRad(KAABA.lat),dp=p2-p1,dl=toRad(KAABA.lon-lon);
+  const a=Math.sin(dp/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2;
+  return 2*R*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+let qibla=null,heading=null,listening=false,gotAbs=false,wasAligned=false;
+
+(function ticks(){
+  let s='';
+  for(let a=0;a<360;a+=10){
+    if(a%90===0)continue;
+    const len=a%30===0?12:7;
+    s+=`<line x1="0" y1="-118" x2="0" y2="${-118+len}" stroke-width="${a%30===0?2.5:1.5}" transform="rotate(${a})"/>`;
+  }
+  Q('#qTicks').innerHTML=s;
+})();
+
+const setStatus=t=>{Q('#qStatus').textContent=t};
+function renderCompass(){
+  Q('#qRot').setAttribute('transform','rotate('+(heading===null?0:-heading)+')');
+  if(qibla!==null){
+    Q('#qKaaba').setAttribute('transform','rotate('+qibla+')');
+    if(heading!==null){
+      const diff=Math.abs(((qibla-heading+540)%360)-180), ok=diff<=4;
+      Q('#qbBox').classList.toggle('aligned',ok);
+      if(ok&&!wasAligned&&navigator.vibrate){try{navigator.vibrate(60)}catch(e){}}
+      wasAligned=ok;
+    }
+  }
+}
+function setLoc(lat,lon,label){
+  if(!isFinite(lat)||!isFinite(lon)||lat<-90||lat>90||lon<-180||lon>180){
+    setStatus('مختصات نامعتبر است. عرض باید بین ۹۰- و ۹۰ و طول بین ۱۸۰- و ۱۸۰ باشد.');return;
+  }
+  qibla=qiblaBearing(lat,lon);
+  Q('#qAngle').textContent=NF(Math.round(qibla))+'°';
+  Q('#qDist').textContent=NF(Math.round(distKm(lat,lon)));
+  Q('#qLat').value=lat.toFixed(4);Q('#qLon').value=lon.toFixed(4);
+  st.set('qLoc',{lat,lon,label:label||''});
+  setStatus((label?'موقعیت: '+label+'. ':'')+(heading===null
+    ?'برای استفاده از قطب‌نما دکمه‌ی «روشن کردن قطب‌نما» را بزنید، یا زاویه‌ی بالا را با یک قطب‌نمای معمولی تطبیق دهید.'
+    :'گوشی را صاف نگه دارید و بچرخانید تا کعبه زیر نشانه‌ی بالا قرار گیرد.'));
+  renderCompass();
+}
+
+/* فهرست شهرها همان فهرست CITIES خود سبهد است */
+(function(){
+  const sel=Q('#qCity');
+  const cities=(typeof CITIES!=='undefined')?CITIES:{'تهران':[35.6892,51.3890]};
+  sel.innerHTML='<option value="">انتخاب شهر</option>'+Object.keys(cities).map(c=>`<option>${c}</option>`).join('');
+  sel.addEventListener('change',()=>{const c=cities[sel.value];if(c)setLoc(c[0],c[1],sel.value)});
+  Q('#qApply').addEventListener('click',()=>setLoc(parseFloat(toEn(Q('#qLat').value)),parseFloat(toEn(Q('#qLon').value)),'مختصات دستی'));
+  Q('#qGps').addEventListener('click',()=>{
+    if(!navigator.geolocation){setStatus('این مرورگر GPS را پشتیبانی نمی‌کند. شهر خود را انتخاب کنید.');return}
+    setStatus('در حال گرفتن موقعیت… ممکن است چند ثانیه طول بکشد.');
+    navigator.geolocation.getCurrentPosition(p=>{sel.value='';setLoc(p.coords.latitude,p.coords.longitude,'GPS')},err=>{
+      setStatus(err.code===1?'دسترسی به موقعیت رد شد. در تنظیمات مرورگر اجازه دهید یا شهر خود را انتخاب کنید.':'موقعیت پیدا نشد. به فضای باز بروید یا شهر خود را انتخاب کنید.');
+    },{enableHighAccuracy:true,timeout:20000,maximumAge:600000});
+  });
+  const saved=st.get('qLoc',null);
+  if(saved&&isFinite(saved.lat)&&isFinite(saved.lon)){
+    if(cities[saved.label])sel.value=saved.label;
+    setLoc(saved.lat,saved.lon,(saved.label||'موقعیت')+' (ذخیره‌شده)');
+  }else{
+    const cur=(typeof S!=='undefined'&&S.city&&cities[S.city])?S.city:'تهران';
+    sel.value=cur;setLoc(cities[cur][0],cities[cur][1],cur);
+  }
+})();
+
+function tiltHeading(alpha,beta,gamma){
+  const d=Math.PI/180,a=alpha*d,b=beta*d,g=gamma*d;
+  const cA=Math.cos(a),sA=Math.sin(a),sB=Math.sin(b),cB=Math.cos(b),sG=Math.sin(g),cG=Math.cos(g);
+  const rA=-cA*sG-sA*sB*cG, rB=-sA*sG+cA*sB*cG;
+  let h=Math.atan2(rA,rB);if(h<0)h+=2*Math.PI;
+  return h*180/Math.PI;
+}
+function pushHeading(h){
+  const scr=(screen.orientation&&screen.orientation.angle)||0;
+  h=(h+scr+360)%360;
+  if(heading===null)heading=h;
+  else{const d=((h-heading+540)%360)-180;heading=(heading+d*0.25+360)%360}
+  renderCompass();
+}
+const onAbs=e=>{if(e.alpha===null)return;gotAbs=true;pushHeading(tiltHeading(e.alpha,e.beta,e.gamma))};
+const onOri=e=>{
+  if(typeof e.webkitCompassHeading==='number'&&!isNaN(e.webkitCompassHeading)){pushHeading(e.webkitCompassHeading);return}
+  if(gotAbs||e.alpha===null)return;
+  if(e.absolute)pushHeading(tiltHeading(e.alpha,e.beta,e.gamma));
+};
+Q('#qStart').addEventListener('click',()=>{
+  if(qibla===null){setStatus('اول موقعیت خود را با GPS یا انتخاب شهر تعیین کنید.');return}
+  const start=()=>{
+    if(listening)return;listening=true;
+    window.addEventListener('deviceorientationabsolute',onAbs,true);
+    window.addEventListener('deviceorientation',onOri,true);
+    setStatus('قطب‌نما روشن شد. گوشی را صاف نگه دارید و آهسته بچرخانید. اگر صفحه حرکت نکرد، این مرورگر یا دستگاه سنسور ندارد و باید از عدد زاویه استفاده کنید.');
+  };
+  if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){
+    DeviceOrientationEvent.requestPermission().then(r=>{
+      if(r==='granted')start();else setStatus('اجازه‌ی دسترسی به سنسور داده نشد. از عدد زاویه استفاده کنید.');
+    }).catch(()=>setStatus('دسترسی به سنسور ممکن نشد. از عدد زاویه استفاده کنید.'));
+  }else start();
+});
+renderCompass();
+
+/* ---------- آمادگی جنگ و بحران ---------- */
+const CHECK=[
+ {t:'آب و غذا',items:[
+  ['آب آشامیدنی','حداقل ۳ لیتر برای هر نفر در روز. آب معدنی را جعبه‌ای تهیه کنید'],
+  ['کنسرو','تن ماهی، لوبیا، میوه کنسروی و خورشت آماده با تاریخ مصرف طولانی'],
+  ['خوراکی فاسدنشدنی','شکلات، آجیل، گرانولا یا پروتئین‌بار'],
+  ['مواد غذایی برای چند هفته','برنج، ماکارونی و کنسرو، اما نه بیش از نیاز'],
+  ['ظروف','چند قاشق، چنگال و لیوان']]},
+ {t:'دارو و کمک‌های اولیه',items:[
+  ['داروهای دائمی','دیابت، فشار، قلب و مانند آن. دست‌کم برای یک ماه'],
+  ['نسخه‌ی پزشک','داخل کیف بگذارید تا بتوانید از داروخانه تهیه کنید'],
+  ['مکمل‌های تجویزی','منیزیم، آهن، ویتامین دی، امگا ۳ و مانند آن'],
+  ['باند، چسب زخم و گاز استریل',''],['الکل ضدعفونی‌کننده',''],['مسکن و ضدحساسیت',''],
+  ['آنتی‌بیوتیک و پماد سوختگی',''],['داروی آرامش‌بخش','']]},
+ {t:'برق و روشنایی',items:[
+  ['چراغ قوه‌ی بزرگ','برای روشن کردن اتاق یا سرویس بهداشتی'],['چراغ قوه‌ی دستی کوچک',''],['باتری اضافه',''],
+  ['پاوربانک','چند پورت (USB-C و USB-A) و بدنه‌ی مقاوم. شارژ آن را کامل نگه دارید'],['شمع',''],['رادیو','']]},
+ {t:'مدارک و پول',items:[
+  ['مدارک شناسایی','شناسنامه، کارت ملی، پاسپورت و گواهینامه‌ی همه‌ی اعضای خانواده'],
+  ['اسناد مهم','سند خانه و ماشین. همه را در یک کیف کوچک بگذارید'],['دو کپی از مدارک',''],
+  ['پول نقد','در حد مصرف چند روز. ممکن است بانک‌ها و خودپردازها مختل شوند'],
+  ['اشیای قیمتی','طلا، لپ‌تاپ، ارز. هنگام ترک خانه همراه ببرید']]},
+ {t:'لباس و اقامت',items:[
+  ['لباس','لباس زیر، لباس راحتی، لباس بیرون راحت و جوراب بر اساس فصل'],['پتو یا کیسه خواب','پتوی اضطراری هم مناسب است'],
+  ['بالش کوچک',''],['چاقو، کبریت یا فندک',''],['دفترچه و خودکار','']]},
+ {t:'بهداشت',items:[
+  ['صابون و شامپو','نسخه‌های کوچک مسافرتی جای کمتری می‌گیرند'],['مسواک و خمیردندان',''],['دستمال کاغذی',''],['ناخن‌گیر',''],['نوار بهداشتی','']]},
+ {t:'کودک',items:[
+  ['لباس گرم و راحت','بیشتر از بزرگسالان بردارید'],['پوشک، پودر بچه و دستمال مرطوب',''],['داروی مسکن و آنتی‌بیوتیک کودک',''],
+  ['شامپوی مخصوص کودک',''],['کتاب و اسباب‌بازی','به‌ویژه وسایلی که کودک را آرام می‌کنند'],['کتاب‌های درسی و تمرینی','']]},
+ {t:'سرگرمی',items:[
+  ['کتاب داستان و رمان',''],['هارد یا فلش','فیلم، کارتون و موزیک روی آن بریزید. از فایل‌ها و عکس‌های لپ‌تاپ هم بکاپ بگیرید'],
+  ['بازی فکری','منچ، شطرنج، تخته نرد یا مونوپولی'],['بازی آفلاین روی گوشی','مثل آمیرزا']]},
+ {t:'کارهای پیش از بحران',items:[
+  ['نصب پیام‌رسان‌های داخلی',''],['نقشه‌ی آفلاین روی گوشی',''],
+  ['ذخیره‌ی پسوردها و فایل‌های مهم','هر چیزی که ممکن است دسترسی به آن قطع شود'],
+  ['نوشتن شماره‌ها روی کاغذ','شماره و آدرس مهم را در دفترچه بنویسید یا حفظ کنید'],
+  ['تعیین مکان‌های ملاقات خانواده',''],['پر کردن باک ماشین','برای خروج سریع'],
+  ['آماده کردن کودکان','پیش از بحران با آن‌ها صحبت کنید'],['به‌روز کردن نرم‌افزار گوشی','']]}
+];
+let checked=st.get('ppChecks',{});
+function renderChecks(){
+  const host=Q('#ppGroups');host.innerHTML='';
+  let total=0,done=0;
+  CHECK.forEach((g,gi)=>{
+    const d=document.createElement('div');d.className='pp-g';
+    const h=document.createElement('h3');h.textContent=g.t;d.appendChild(h);
+    g.items.forEach((it,ii)=>{
+      const key=gi+'-'+ii;total++;if(checked[key])done++;
+      const l=document.createElement('label');l.className='pp-it'+(checked[key]?' done':'');
+      const cb=document.createElement('input');cb.type='checkbox';cb.checked=!!checked[key];
+      cb.addEventListener('change',()=>{
+        if(cb.checked)checked[key]=1;else delete checked[key];
+        st.set('ppChecks',checked);
+        l.classList.toggle('done',cb.checked);
+        updateProgress();
+      });
+      const sp=document.createElement('span');
+      const b=document.createElement('b');b.textContent=it[0];sp.appendChild(b);
+      if(it[1]){const sm=document.createElement('small');sm.textContent=it[1];sp.appendChild(sm)}
+      l.appendChild(cb);l.appendChild(sp);d.appendChild(l);
+    });
+    host.appendChild(d);
+  });
+  Q('#ppGroups').dataset.total=total;
+  updateProgress();
+}
+function updateProgress(){
+  const total=+Q('#ppGroups').dataset.total||0,done=Object.keys(checked).length;
+  Q('#ppText').textContent=NF(done)+' از '+NF(total)+' مورد آماده است';
+  Q('#ppBar').style.width=(total?done/total*100:0)+'%';
+}
+Q('#ppReset').addEventListener('click',()=>{
+  if(confirm('همه‌ی تیک‌ها پاک شود؟')){checked={};st.set('ppChecks',checked);renderChecks()}
+});
+
+const GUIDE=[
+ ['از اخبار معتبر غافل نشوید','<p>دسترسی به اطلاعات درست در بحران می‌تواند جان شما را نجات دهد. به دنبال منابع موثق باشید و از شایعات دوری کنید، چون استرس و نگرانی را چند برابر می‌کنند.</p><ul><li>نقشه‌های آفلاین را روی گوشی نصب کنید، چون ممکن است مدتی اینترنت نداشته باشید.</li><li>روش‌های اشتراک‌گذاری آفلاین موقعیت را یاد بگیرید.</li></ul>'],
+ ['پناهگاه‌های امن را شناسایی کنید','<p>پیش از تشدید جنگ، پناهگاه‌های اطراف را پیدا کنید. اگر می‌توانید بیرون بروید، به پناهگاه‌های عمومی بروید. برای مثال ایستگاه‌های مترو به پناهگاه تبدیل شده‌اند.</p><ul><li>اگر باید در خانه بمانید، تا جای ممکن آن را امن کنید و پنجره‌ها را چسب بزنید.</li><li>هنگام بمباران از شیشه‌ها دور بمانید.</li><li>روی زمین دراز بکشید و با دست‌ها از سرتان محافظت کنید.</li></ul>'],
+ ['کوله و کیت اضطراری آماده کنید','<p>یک کیت در خانه و یک کوله‌ی آماده برای جابه‌جایی تهیه کنید. هر دو باید دست‌کم ۷۲ ساعت نیازهای شما را برطرف کنند.</p><ul><li><b>آب:</b> حداقل ۳ لیتر برای هر نفر در روز</li><li><b>غذای فاسدنشدنی:</b> کنسرو، شکلات، آجیل، گرانولا یا پروتئین‌بار</li><li><b>کمک‌های اولیه:</b> باند، مسکن و داروهای تجویزی</li><li><b>سایر وسایل:</b> چراغ قوه، پاوربانک، شمع، کپی مدارک، پول نقد، پتوی اضطراری، دفترچه و خودکار، رادیو</li></ul>'],
+ ['برای خانواده‌تان استراتژی داشته باشید','<ul><li><b>مکان‌های ملاقات:</b> چند مکان مختلف تعیین کنید تا در صورت جدا شدن، دوباره یکدیگر را پیدا کنید.</li><li><b>شماره تلفن:</b> شماره‌ی اعضای خانواده را روی کاغذ بنویسید تا با گم شدن یا خاموش شدن گوشی هم داشته باشید.</li><li><b>تقسیم وظایف:</b> مثلاً یک نفر مسئول کیت اضطراری و یک نفر مراقب اعضای مسن خانواده باشد.</li></ul><p>برای نوشتن این موارد از تب «برگه خانواده» استفاده کنید.</p>'],
+ ['مواد غذایی و لوازم ضروری کافی داشته باشید','<p>ممکن است شرایط جنگی چند هفته ادامه پیدا کند و نتوانید برای خرید بیرون بروید. برنج، کنسرو و ماکارونی به اندازه‌ی کافی ذخیره کنید. لوازم بهداشتی مثل صابون و همچنین دارو را هم فراموش نکنید. البته بیش از نیازتان تهیه نکنید.</p>'],
+ ['کمک‌های اولیه را یاد بگیرید','<p>مجروح شدن پیامد رایج جنگ است. باید بتوانید:</p><ul><li>خونریزی را متوقف کنید.</li><li>سوختگی و شکستگی را تا حدی درمان کنید.</li><li>فرد شوکه‌شده را آرام کنید.</li><li>احیای قلبی ریوی (CPR) انجام دهید.</li></ul><p>یک دفترچه‌ی آموزش کمک‌های اولیه هم همراه داشته باشید.</p>'],
+ ['حواس‌تان به مسائل مالی باشد','<p>ممکن است خودپردازها قطع شوند و برق و بانکداری دیجیتال در دسترس نباشد. مقداری پول نقد داشته باشید و آن را در جایی مطمئن پنهان کنید، اما دسترسی به آن نباید دشوار باشد.</p>'],
+ ['با شرایط سازگار شوید','<p>زندگی در شرایط جنگی رنگ‌وبوی دیگری دارد. مهارت‌های زیر را یاد بگیرید:</p><ul><li>روشن کردن آتش بدون کبریت یا فندک</li><li>تشخیص منابع آب تمیز</li><li>پیدا کردن مکان مورد نظر بدون GPS</li></ul>'],
+ ['برای تخلیه‌ی ساختمان آماده باشید','<p>ممکن است مجبور شوید محل سکونت خود را ترک کنید.</p><ul><li>راه‌های مختلف خروج از ساختمان را بررسی کنید.</li><li>لوازم مورد نیاز را داخل ماشین داشته باشید.</li><li>باک ماشین تا جای ممکن پر باشد.</li><li>هنگام خروج مراقب باشید آسیب نبینید.</li></ul>'],
+ ['از خود در برابر حملات سایبری محافظت کنید','<p>حملات سایبری در سال‌های اخیر به ابزاری مهم در جنگ‌ها تبدیل شده‌اند. دستگاه‌هایتان را به جدیدترین نسخه‌ی نرم‌افزاری به‌روز کنید و از کمپین‌های انتشار اخبار جعلی دوری کنید.</p>'],
+ ['به اندازه خرید کنید','<p>جنگ می‌تواند باعث کمبود برخی اقلام شود. مسئولانه خرید کنید و فقط لوازم ضروری را به اندازه‌ی نیازتان بخرید. اگر همه‌ی افراد خرید افراطی کنند، امنیت جامعه به خطر می‌افتد.</p>'],
+ ['حواس‌تان به سلامت روان‌تان باشد','<p>استرس ناشی از جنگ می‌تواند به فروپاشی روانی منجر شود. با تکنیک‌های تنفس استرس خود را مدیریت کنید و مراقب سلامت روان خود باشید.</p>'],
+ ['برای دوران بعد از جنگ آماده شوید','<p>روزی جنگ تمام می‌شود و زندگی ادامه پیدا می‌کند. به فکر آینده و ساختن دوباره‌ی زندگی‌تان باشید. نحوه‌ی برقراری ارتباط دوباره با دوستان و اعضای خانواده را مرور کنید و عکس‌ها و اسناد مهم را از هر آسیبی حفظ کنید.</p>']
+];
+(function(){
+  const host=Q('#ppGuide');
+  GUIDE.forEach((g,i)=>{
+    const d=document.createElement('details');d.className='pp-d';
+    const s=document.createElement('summary');
+    s.innerHTML='<span class="n"></span><span class="t"></span>';
+    s.querySelector('.n').textContent=NF(i+1);s.querySelector('.t').textContent=g[0];
+    const b=document.createElement('div');b.className='pp-body';b.innerHTML=g[1];
+    d.appendChild(s);d.appendChild(b);host.appendChild(d);
+  });
+})();
+
+const BOOK=[
+ ['داروهای خاص و ضروری','<p>اگر بیماری خاصی دارید و داروی خاصی را دائم مصرف می‌کنید، مانند داروهای دیابت، فشار و قلب، آن‌ها را پیش از هر چیز به کیف اضطراری اضافه کنید. دارو را از قبل دست‌کم به اندازه‌ی یک ماه تهیه کنید و نسخه را هم در کیف بگذارید تا اگر بحران طولانی شد، بتوانید از داروخانه تهیه کنید.</p><p>اگر مکمل‌هایی مانند منیزیم، آهن، ویتامین دی یا امگا ۳ را به تجویز پزشک یا برای رژیم خود مصرف می‌کنید و نمی‌خواهید قطع شوند، آن‌ها را در فهرست بگذارید و هرچه زودتر تهیه کنید.</p><p>موارد زیر هم توصیه می‌شود:</p><ul><li>الکل ضدعفونی‌کننده</li><li>چسب زخم و گاز استریل</li><li>آنتی‌بیوتیک</li><li>پماد سوختگی</li><li>مسکن</li><li>داروهای ضدحساسیت</li><li>داروهای آرامش‌بخش</li></ul>'],
+ ['غذاهای کنسروی و آب معدنی','<p>هیچ‌کس نمی‌داند در بحران چه در انتظار اوست. ممکن است قطعی گاز یا کمبود روغن اجازه‌ی پخت‌وپز ندهد. چند غذای کنسروی با تاریخ مصرف طولانی مثل تن ماهی، میوه‌ی کنسروی، خوراک لوبیا و خورشت‌های آماده یا نیمه‌آماده تهیه کنید. به این ترتیب حداقل پروتئین و مواد لازم را تأمین می‌کنید.</p><p>آب معدنی را جعبه‌ای بخرید تا اگر آب قطع شد، برای نوشیدن و سرویس بهداشتی به اندازه‌ی کافی داشته باشید.</p>'],
+ ['چراغ قوه و باتری اضافه','<p>قطعی برق و انرژی از موارد حتمی هر بحران است. چند چراغ قوه تهیه کنید: یک نمونه‌ی بزرگ برای روشن کردن اتاق یا سرویس بهداشتی، و چند چراغ قوه‌ی دستی کوچک برای همراه داشتن. چراغ قوه‌ی گوشی هم جایگزین موقت است.</p><p>برای چراغ‌ها و هر وسیله‌ی باتری‌خور دیگر، چند باتری اضافه بخرید.</p>'],
+ ['پاوربانک','<p>قطعی برق می‌تواند عملکرد شما را کاملاً مختل کند. حتی یک پاوربانک با ظرفیت کم هم در بحران به کار می‌آید. اگر ندارید، مدلی بخرید که چند دستگاه را چندین بار شارژ کند.</p><ul><li>امکان شارژ هم‌زمان چند دستگاه</li><li>درگاه‌های مختلف مثل USB-C و USB-A</li><li>توان بالا</li><li>بدنه‌ی مقاوم</li></ul>'],
+ ['مدارک مهم و کپی آن‌ها','<p>شناسنامه، پاسپورت، کارت ملی، گواهینامه، اسناد مهم مثل سند خانه و ماشین و مدارک همه‌ی اعضای خانواده را در یک کیف کوچک بگذارید و داخل ساک یا چمدان ضروری قرار دهید. حداقل دو کپی از آن‌ها هم داشته باشید تا اگر اصل مدارک گم شد، بتوانید استفاده کنید.</p>'],
+ ['لوازم سرگرمی و تفریح','<p>سرگرمی از مهم‌ترین لوازم است، به‌ویژه اگر کودک همراه دارید. کتاب داستان و رمان ساده‌ترین شکل سرگرمی در قطعی دسترسی‌هاست.</p><ul><li>هارد یا فلش با ظرفیت بالا بخرید و از فیلم، کارتون، سریال و موزیک پر کنید. از فایل‌ها و عکس‌های لپ‌تاپ هم روی آن بکاپ بگیرید.</li><li>یکی دو بازی رومیزی مثل منچ، مونوپولی، شطرنج یا تخته نرد در کیف بگذارید.</li><li>روی گوشی یا تبلت بازی‌های آفلاین مثل آمیرزا نصب کنید.</li><li>چند بازی ساده بدون موبایل یاد بگیرید تا بتوانید کودک را سرگرم کنید.</li></ul>'],
+ ['لوازم قیمتی و ارزشمند','<p>زیورآلات طلا، اسناد مهم، لپ‌تاپ، ارز و پول نقد را در خانه جا نگذارید. اگر مجبور شوید خانه را ترک کنید، خانه‌ای خالی هدف سارقان می‌شود. هر چیز قیمتی را همراه ببرید و در جای امنی از کیف قرار دهید.</p><p>ممکن است عملکرد بانک‌ها و اپلیکیشن‌های بانکی مختل شود. پول نقد در حد مصرف چند روز داشته باشید.</p>'],
+ ['لباس و پتو','<p>از قبل یک کیف برای لباس آماده کنید. متناسب با فصل، لباس زیر، لباس راحتی، لباس بیرون راحت و جوراب جمع کنید. برای کودک لباس بیشتری بردارید.</p><p>اگر احتمال می‌دهید مجبور شوید بیرون از خانه بمانید، پتو و بالش کوچک همراه داشته باشید. کیسه خواب و چادر مسافرتی هم اگر دارید بهتر است. در بحران نمی‌توان همه چیز را برداشت، اما تا حد امکان این موارد را همراه داشته باشید.</p>'],
+ ['چاقو، فندک و ظروف ضروری','<p>اگر جایی بمانید که لوازم اولیه‌ی زندگی در آن نیست، باید از قبل همراه داشته باشید: چاقو، کبریت یا فندک، چند قاشق و چنگال و لیوان.</p>'],
+ ['لوازم شستشو و نظافت','<p>صابون، شامپو، دستمال کاغذی، ناخن‌گیر، نوار بهداشتی، مسواک و خمیردندان را همراه داشته باشید. لازم نیست روتین پوستی خود را حفظ کنید، اما وسایل نظافت مثل شامپو و صابون لازم است. نسخه‌های کوچک و مسافرتی جای کمی در کیف اشغال می‌کنند.</p>'],
+ ['وسایل مورد نیاز کودک','<ul><li>لباس گرم و راحت</li><li>پوشک، پودر بچه و دستمال مرطوب</li><li>داروی مسکن و آنتی‌بیوتیک کودک</li><li>کتاب و اسباب‌بازی، به‌ویژه وسایلی که کودک را آرام می‌کنند</li><li>شامپوی مخصوص کودک</li><li>کتاب‌های درسی و تمرینی</li></ul>'],
+ ['دیگر کارهای مهم پیش از بحران','<ul><li>پیام‌رسان‌ها و برنامه‌های داخلی را نصب کنید.</li><li>پسوردها، فایل‌های شخصی و هر چیزی را که ممکن است دسترسی‌تان به آن قطع شود ذخیره کنید.</li><li>اطرافیان، به‌ویژه کودکان، را از قبل آماده کنید.</li><li>آدرس‌ها و شماره‌های مهم را حفظ کنید یا در یک دفترچه بنویسید.</li><li>باک ماشین را برای خروج سریع از منطقه‌ی بحران پر کنید.</li></ul>']
+];
+(function(){
+  const toc=Q('#ppToc'),body=Q('#ppBook');
+  BOOK.forEach((s,i)=>{
+    const a=document.createElement('a');a.className='chip';a.href='#pp-bk'+i;a.textContent=s[0];
+    a.addEventListener('click',e=>{e.preventDefault();document.getElementById('pp-bk'+i).scrollIntoView({behavior:'smooth',block:'start'})});
+    toc.appendChild(a);
+    const h=document.createElement('h3');h.id='pp-bk'+i;h.textContent=s[0];
+    const d=document.createElement('div');d.innerHTML=s[1];
+    body.appendChild(h);body.appendChild(d);
+  });
+})();
+
+(function(){
+  const data=st.get('ppNotes',{});
+  document.querySelectorAll('#pp-fam [data-k]').forEach(el=>{
+    el.value=data[el.dataset.k]||'';
+    el.addEventListener('input',()=>{data[el.dataset.k]=el.value;st.set('ppNotes',data)});
+  });
+})();
+
+function ppTab(t){
+  document.querySelectorAll('#ppTabs .mini').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  document.querySelectorAll('.pp-pane').forEach(p=>p.classList.toggle('on',p.id==='pp-'+t));
+  st.set('ppTab',t);
+}
+document.querySelectorAll('#ppTabs .mini').forEach(b=>b.addEventListener('click',()=>ppTab(b.dataset.t)));
+renderChecks();
+ppTab(st.get('ppTab','check'));
+
+/* ========== ابزارهای اضطراری ========== */
+(function(){
+function emgTab(t){
+  document.querySelectorAll('#emgTabs .mini').forEach(b=>b.classList.toggle('on',b.dataset.e===t));
+  document.querySelectorAll('#emg .pp-pane').forEach(p=>p.classList.toggle('on',p.id==='emg-'+t));
+  st.set('emgTab',t);
+}
+document.querySelectorAll('#emgTabs .mini').forEach(b=>b.addEventListener('click',()=>emgTab(b.dataset.e)));
+emgTab(st.get('emgTab','msg'));
+
+/* ---- ۱) مخاطبان و پیام «سالمم» ---- */
+let contacts=st.get('emgContacts',[]);
+function saveContacts(){st.set('emgContacts',contacts)}
+function renderContacts(){
+  const host=Q('#ctList');
+  if(!contacts.length){host.innerHTML='<div class="contact-empty">هنوز مخاطبی اضافه نکرده‌اید.</div>';return}
+  host.innerHTML=contacts.map((c,i)=>`<label class="contact-it"><input type="checkbox" data-i="${i}" ${c.on!==false?'checked':''}><span class="ci-name">${esc(c.name||'بدون نام')}</span><span class="ci-phone">${esc(c.phone)}</span><button type="button" class="del" data-del="${i}" title="حذف" aria-label="حذف">🗑</button></label>`).join('');
+  host.querySelectorAll('input[type=checkbox]').forEach(cb=>cb.addEventListener('change',()=>{contacts[+cb.dataset.i].on=cb.checked;saveContacts()}));
+  host.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{contacts.splice(+b.dataset.del,1);saveContacts();renderContacts()}));
+}
+renderContacts();
+Q('#ctAdd').addEventListener('click',()=>{
+  const n=Q('#ctName'),p=Q('#ctPhone');
+  const phone=p.value.trim();
+  if(!phone){p.focus();return}
+  contacts.push({name:n.value.trim(),phone,on:true});
+  saveContacts();renderContacts();n.value='';p.value='';n.focus();
+});
+Q('#ctPhone').addEventListener('keydown',e=>{if(e.key==='Enter')Q('#ctAdd').click()});
+Q('#ctPick').addEventListener('click',async()=>{
+  if('contacts' in navigator && 'ContactsManager' in window){
+    try{
+      const sel=await navigator.contacts.select(['name','tel'],{multiple:true});
+      sel.forEach(c=>{const phone=(c.tel&&c.tel[0])||'';if(!phone)return;contacts.push({name:(c.name&&c.name[0])||'',phone,on:true})});
+      saveContacts();renderContacts();
+    }catch(err){/* کاربر لغو کرد */}
+  }else{
+    toastEmg('این دکمه فقط در برخی مرورگرهای اندروید (مثل کروم) کار می‌کند؛ روی لپ‌تاپ مخاطب را دستی اضافه کنید.','err');
+  }
+});
+function toastEmg(msg,cls){const s=Q('#safeStatus');s.textContent=msg;s.className='emg-status'+(cls?' '+cls:'')}
+function safeMessage(coords){
+  const now=new Date();
+  const time=now.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});
+  let loc='';
+  if(coords) loc=`\nموقعیت من: https://maps.google.com/?q=${coords.lat},${coords.lon}`;
+  return `من سالمم. ساعت ${fa(time)} پیام فرستادم.${loc}`;
+}
+function getPos(){
+  return new Promise(res=>{
+    if(!navigator.geolocation){res(null);return}
+    navigator.geolocation.getCurrentPosition(
+      p=>res({lat:p.coords.latitude.toFixed(5),lon:p.coords.longitude.toFixed(5)}),
+      ()=>res(null),{enableHighAccuracy:true,timeout:8000}
+    );
+  });
+}
+async function buildAndSend(action){
+  toastEmg('در حال دریافت موقعیت…');
+  const pos=await getPos();
+  const text=safeMessage(pos);
+  const nums=contacts.filter(c=>c.on!==false).map(c=>c.phone);
+  if(action==='sms'){
+    if(!nums.length){toastEmg('اول یک مخاطب اضافه یا انتخاب کنید.','err');return}
+    const sep=/iPhone|iPad|iPod/.test(navigator.userAgent)?'&':'?';
+    location.href='sms:'+nums.join(',')+sep+'body='+encodeURIComponent(text);
+    toastEmg(pos?'صفحه‌ی پیامک باز شد؛ اگر باز نشد از «کپی متن پیام» استفاده کنید.':'موقعیت دریافت نشد؛ پیام بدون مختصات آماده شد.','ok');
+  }else{
+    try{
+      await navigator.clipboard.writeText(text);
+      toastEmg('متن پیام کپی شد؛ آن را در ایتا، بله، پیامک یا هر برنامه‌ی دیگری بچسبانید.'+(pos?'':' (موقعیت دریافت نشد)'),'ok');
+    }catch(err){
+      toastEmg(text,'ok');
+    }
+  }
+}
+Q('#sendSafe').addEventListener('click',()=>buildAndSend('sms'));
+Q('#copySafe').addEventListener('click',()=>buildAndSend('copy'));
+
+/* ---- ۲) کارت اضطراری تمام‌صفحه ---- */
+function famData(){return st.get('ppNotes',{})}
+function renderCard(){
+  const d=famData();
+  const rows=[
+    ['گروه خونی، حساسیت‌ها و داروها',d.medical],
+    ['شماره‌ها و آدرس‌های ضروری',d.urgent],
+    ['شماره تلفن اعضای خانواده',d.phones],
+    ['مکان ملاقات اول',d.meet1],
+    ['مکان ملاقات دوم',d.meet2],
+  ];
+  const has=rows.some(r=>r[1]&&r[1].trim());
+  Q('#cardFullBody').innerHTML = '<h2>🆘 کارت اضطراری</h2>' +
+    (has ? rows.filter(r=>r[1]&&r[1].trim()).map(r=>`<div class="cf-row"><b>${esc(r[0])}</b><span>${esc(r[1])}</span></div>`).join('')
+         : '<p class="cf-empty">هنوز «برگه خانواده» را پر نکرده‌اید. به تب «آمادگی جنگ و بحران ← برگه خانواده» بروید و اطلاعات را وارد کنید.</p>');
+}
+Q('#showCard').addEventListener('click',()=>{renderCard();Q('#cardFull').classList.add('on')});
+Q('#cfClose').addEventListener('click',()=>Q('#cardFull').classList.remove('on'));
+
+/* ---- ۳) کمک‌های اولیه + مترونوم ---- */
+function aidStep(n,title,body,body2){
+  return `<div class="aid-step"><div class="n">${fa(n)}</div><div class="c"><b>${esc(title)}</b><p>${esc(body)}</p>${body2?`<p>${esc(body2)}</p>`:''}</div></div>`;
+}
+function aidHead(icon,title,sub){
+  return `<div class="aid-head"><div class="aid-ic">${icon}</div><div><h3>${esc(title)}</h3><div class="sub">${esc(sub)}</div></div></div>`;
+}
+function aidCallout(kind,icon,text){
+  return `<div class="aid-callout ${kind}"><span class="ic">${icon}</span><span>${text}</span></div>`;
+}
+
+const AID={
+ bleed:
+  aidHead('🩸','خونریزی','از تشخیص شدت تا کنترل کامل، قدم‌به‌قدم')+
+  '<div class="aid-sev"><span class="mild">خفیف: قطره‌ای، خودبه‌خود بند می‌آید</span><span class="mod">متوسط: پیوسته ولی کنترل‌پذیر با فشار</span><span class="sev">شدید: فواره‌ای/غیرقابل توقف — اورژانس فوری</span></div>'+
+  '<div class="aid-steps">'+
+  aidStep(1,'ایمنی خودتان را اول تأمین کنید','در صورت امکان دستکش بپوشید یا از کیسه‌ی پلاستیکی به‌عنوان سد محافظ بین دست و خون استفاده کنید تا از انتقال عفونت جلوگیری شود.')+
+  aidStep(2,'نوع خونریزی را تشخیص دهید','خون روشن و فواره‌ای معمولاً از رگ شریانی و خطرناک‌تر است؛ خون تیره و پیوسته از سیاهرگ است و کنترلش معمولاً ساده‌تر. در هر دو حالت، فشار مستقیم اولین اقدام است.')+
+  aidStep(3,'فشار مستقیم و پیوسته وارد کنید','یک پارچه یا گاز تمیز روی زخم بگذارید و با کف دست، محکم و بدون وقفه فشار دهید. حداقل ۱۰ تا ۱۵ دقیقه پیوسته فشار دهید؛ برای چک کردن، پانسمان را برندارید.')+
+  aidStep(4,'عضو را بالاتر از سطح قلب نگه دارید','اگر شکستگی مشکوک نیست، دست یا پای آسیب‌دیده را بالا بیاورید تا جریان خون به سمت زخم کاهش یابد.')+
+  aidStep(5,'روی پانسمان خونی، لایه اضافه کنید نه جایگزین','اگر پارچه خون‌آلود شد، لایه‌ی تازه را روی همان لایه بگذارید و باز فشار دهید؛ برداشتن پانسمان لخته‌ی تازه‌شکل‌گرفته را از بین می‌برد.')+
+  aidStep(6,'اگر فشار مستقیم کافی نبود، نقطه‌ی فشاری را امتحان کنید','برای خونریزی شدید دست یا پا، روی شریان بالادست زخم (مثلاً داخل بازو یا کشاله‌ی ران) با انگشتان فشار اضافه وارد کنید، هم‌زمان با ادامه‌ی فشار مستقیم روی زخم.')+
+  aidStep(7,'تورنیکت فقط آخرین راه برای خونریزی تهدیدکننده‌ی جان است','اگر خونریزی اندام با فشار مستقیم بند نیامد، تورنیکت (یا پارچه‌ی پهن پیچیده‌شده) را چند سانتی‌متر بالاتر از زخم ببندید تا خونریزی قطع شود. ساعت دقیق بستن را روی پیشانی فرد یا پارچه بنویسید و آن را هرگز شل یا باز نکنید تا اورژانس برسد.')+
+  aidStep(8,'مراقب علائم شوک باشید','فرد را دراز بکشانید، پاها را کمی بالا بیاورید (اگر شکستگی ندارد)، گرمش نگه دارید و آرامش کنید تا اورژانس برسد.')+
+  aidStep(9,'در این موارد فوراً با ۱۱۵ تماس بگیرید','خونریزی فواره‌ای یا بندنیامدنی، خونریزی همراه با جسم خارجی فرورفته، زخم عمیق در قفسه‌سینه/شکم/گردن، یا علائم شوک.')+
+  '</div>'+
+  aidCallout('danger','⚠️','<b>جسم خارجی فرورفته در زخم (چاقو، شیشه و…) را بیرون نکشید.</b> دور آن را با پارچه محکم کنید تا ثابت بماند و اجازه دهید تیم اورژانس آن را خارج کند؛ کشیدنش می‌تواند خونریزی را شدیدتر کند.')+
+  aidCallout('info','ℹ️','<b>خونریزی داخلی</b> ممکن است زخم بیرونی نداشته باشد؛ به کبودی گسترده، شکم سفت و دردناک، استفراغ یا سرفه‌ی خونی، و ضعف ناگهانی شک کنید و فوراً کمک بگیرید.')+
+  '<div class="aid-shock"><h4>🧊 علائم شوک ناشی از خونریزی</h4><ul><li>پوست رنگ‌پریده، سرد و مرطوب</li><li>نبض سریع و ضعیف، تنفس تند و سطحی</li><li>سرگیجه، بی‌قراری یا کاهش سطح هوشیاری</li><li>تشنگی شدید و احساس سرما</li></ul></div>',
+ burn:
+  aidHead('🔥','سوختگی','درجه‌ی سوختگی را بشناسید و درست واکنش نشان دهید')+
+  '<div class="aid-sev"><span class="mild">درجه‌یک: قرمزی سطحی بدون تاول</span><span class="mod">درجه‌دو: تاول و درد شدید</span><span class="sev">درجه‌سه: سفید/سوخته و بی‌درد — اورژانس فوری</span></div>'+
+  '<div class="aid-steps">'+
+  aidStep(1,'منبع حرارت را دور کنید','فرد یا عضو آسیب‌دیده را فوراً از تماس با آتش، مایع داغ، بخار یا برق دور کنید. در سوختگی برقی، ابتدا مطمئن شوید منبع برق قطع شده است.')+
+  aidStep(2,'زیر آب خنک بگیرید','محل سوختگی را حداقل ۱۰ تا ۲۰ دقیقه زیر آب ولرم تا خنک (نه یخ‌زده) بگیرید تا حرارت از بافت خارج شود و درد کاهش یابد.')+
+  aidStep(3,'لباس و زیورآلات را با احتیاط جدا کنید','اگر لباس به پوست نچسبیده، آن را از اطراف سوختگی درآورید. انگشتر، ساعت و دستبند را پیش از ورم کردن ناحیه باز کنید. اگر لباس چسبیده، آن را نکنید.')+
+  aidStep(4,'با پارچه‌ی تمیز و غیرچسبنده بپوشانید','از پارچه‌ی نخی تمیز یا گاز استریل استفاده کنید تا از عفونت و ورود هوا جلوگیری شود.')+
+  aidStep(5,'برای درد، مسکن ساده کافی است','در صورت نیاز از مسکن‌های معمول استفاده کنید؛ از فشار آوردن یا مالیدن مستقیم روی ناحیه بپرهیزید.')+
+  aidStep(6,'در این موارد فوراً به مرکز درمانی بروید','سوختگی بزرگ‌تر از کف دست فرد، سوختگی عمیق (سفید یا سیاه و بی‌درد)، سوختگی صورت/دست/مفصل/تناسلی، سوختگی برقی یا شیمیایی، یا سوختگی در کودک و سالمند.')+
+  '</div>'+
+  aidCallout('danger','⚠️','هرگز روی سوختگی <b>یخ، خمیردندان، روغن یا کره</b> نمالید؛ این‌ها آسیب بافتی را بیشتر می‌کنند. تاول‌ها را هم نترکانید تا خطر عفونت کم شود.')+
+  aidCallout('info','ℹ️','برای <b>سوختگی شیمیایی</b>، پودر یا ماده‌ی شیمیایی خشک را قبل از شست‌وشو با پارچه پاک کنید، سپس با آب فراوان و مداوم بشویید.'),
+ frac:
+  aidHead('🦴','شکستگی و پیچ‌خوردگی','بی‌حرکت‌سازی درست، مهم‌ترین اقدام است')+
+  '<div class="aid-sev"><span class="mild">پیچ‌خوردگی: ورم و درد خفیف تا متوسط</span><span class="mod">شکستگی بسته: تغییر شکل یا درد شدید، پوست سالم</span><span class="sev">شکستگی باز/مشکوک به ستون فقرات: اورژانس فوری</span></div>'+
+  '<div class="aid-steps">'+
+  aidStep(1,'فرد را آرام نگه دارید و عضو را حرکت ندهید','از حرکت دادن یا صاف کردن عضو خودداری کنید؛ حرکت اضافی می‌تواند آسیب را بدتر کند.')+
+  aidStep(2,'در صورت شک به آسیب گردن، کمر یا لگن، فرد را جابه‌جا نکنید','سر و گردن را در همان وضعیت اولیه نگه دارید و فقط منتظر اورژانس بمانید؛ جابه‌جایی نادرست می‌تواند به نخاع آسیب بزند.')+
+  aidStep(3,'برای اندام‌ها، آتل ببندید','با یک شیء صاف و سفت (چوب، مقوای محکم، روزنامه‌ی تاشده) در دو طرف عضو، و بستن با پارچه یا باند، مفصل بالا و پایین محل شکستگی را هم بی‌حرکت کنید.')+
+  aidStep(4,'یخ روی پارچه بگذارید نه مستقیم روی پوست','برای کاهش ورم و درد، کیسه‌ی یخ را داخل پارچه بپیچید و هر بار حداکثر ۱۵ تا ۲۰ دقیقه روی ناحیه بگذارید.')+
+  aidStep(5,'عضو را کمی بالا نگه دارید','اگر باعث درد بیشتر نمی‌شود، عضو آسیب‌دیده را کمی بالاتر از سطح قلب قرار دهید تا ورم کمتر شود.')+
+  aidStep(6,'در این موارد فوراً با ۱۱۵ تماس بگیرید','شکستگی باز (استخوان بیرون‌زده یا خونریزی همراه)، تغییر شکل شدید عضو، بی‌حسی یا سردی انتهای اندام، یا شک به آسیب ستون فقرات، لگن یا سر.')+
+  '</div>'+
+  aidCallout('danger','⚠️','هرگز سعی نکنید استخوان جابه‌جاشده را <b>خودتان جا بیندازید</b>؛ فقط بی‌حرکتش کنید و منتظر کمک تخصصی بمانید.'),
+ cpr:
+  aidHead('❤️','احیای قلبی‌ریوی (CPR)','برای فرد بی‌هوش که نفس نمی‌کشد یا نفسش طبیعی نیست')+
+  '<div class="aid-steps">'+
+  aidStep(1,'واکنش فرد را بررسی کنید','شانه‌هایش را تکان دهید و بلند صدا بزنید. اگر پاسخی نگرفتید، فوراً با ۱۱۵ تماس بگیرید یا از کسی بخواهید تماس بگیرد.')+
+  aidStep(2,'تنفس را چک کنید','برای حداکثر ۱۰ ثانیه به بالا و پایین رفتن قفسه‌سینه نگاه کنید. اگر نفس نمی‌کشد یا فقط نفس‌های نامنظم و بی‌کیفیت دارد، احیا را شروع کنید.')+
+  aidStep(3,'فرد را روی سطح سفت و صاف بخوابانید','او را به پشت روی زمین یا سطحی سفت قرار دهید، نه روی تشک نرم.')+
+  aidStep(4,'محل صحیح دست را پیدا کنید','کف یک دست را وسط قفسه‌سینه (نیمه‌ی پایینی جناغ) بگذارید و دست دیگر را روی آن قفل کنید؛ انگشتان را از قفسه‌سینه بلند نگه دارید.')+
+  aidStep(5,'ماساژ قفسه‌سینه را با ریتم درست شروع کنید','با بازوهای کاملاً صاف و استفاده از وزن بدن، حدود ۵ تا ۶ سانتی‌متر فشار دهید و با ریتم ۱۰۰ تا ۱۲۰ ضربه در دقیقه ادامه دهید (از مترونوم زیر کمک بگیرید). بعد از هر فشار اجازه دهید سینه کاملاً به حالت اول برگردد.')+
+  aidStep(6,'در صورت بلد بودن، تنفس مصنوعی هم اضافه کنید','۳۰ ماساژ و سپس ۲ تنفس دهان‌به‌دهان یک چرخه است؛ اگر تنفس مصنوعی بلد نیستید، همان ماساژ پیوسته (Hands-only CPR) به‌تنهایی هم مؤثر است و بهتر از انجام‌ندادن هیچ‌کاری است.')+
+  aidStep(7,'تا رسیدن اورژانس یا برگشت هوشیاری ادامه دهید','اگر دستگاه AED (دفیبریلاتور خودکار) در دسترس بود، طبق دستورات صوتی‌اش استفاده کنید؛ خاموش‌کردن احیا فقط با رسیدن نیروی امداد یا بازگشت واضح تنفس فرد است.')+
+  '</div>'+
+  aidCallout('info','ℹ️','برای <b>نوزاد و کودک خردسال</b> عمق و شدت فشار باید کمتر باشد (حدود یک‌سوم قطر قفسه‌سینه)؛ در صورت امکان از آموزش تخصصی CPR کودکان هلال‌احمر استفاده کنید.')
+};
+Object.keys(AID).forEach(k=>{const el=(k==='cpr')?Q('#aid-cpr-text'):Q('#aid-'+k);el.innerHTML=AID[k]});
+document.querySelectorAll('#aidTabs .mini').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('#aidTabs .mini').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.aid-box').forEach(x=>x.classList.toggle('on',x.id==='aid-'+b.dataset.a));
+}));
+let metroTimer=null,metroCtx=null;
+function metroBeep(){
+  try{
+    metroCtx=metroCtx||new (window.AudioContext||window.webkitAudioContext)();
+    const o=metroCtx.createOscillator(),g=metroCtx.createGain();
+    o.frequency.value=880;g.gain.value=.18;
+    o.connect(g);g.connect(metroCtx.destination);
+    o.start();o.stop(metroCtx.currentTime+.06);
+  }catch(err){}
+  const dot=Q('#metroDot');dot.classList.add('beat');setTimeout(()=>dot.classList.remove('beat'),120);
+}
+function metroStart(){
+  metroStop();
+  const bpm=+Q('#metroBpm').value;
+  metroBeep();
+  metroTimer=setInterval(metroBeep,60000/bpm);
+  Q('#metroToggle').textContent='⏸ توقف مترونوم';
+}
+function metroStop(){
+  if(metroTimer){clearInterval(metroTimer);metroTimer=null}
+  Q('#metroToggle').textContent='▶ شروع مترونوم';
+}
+Q('#metroToggle').addEventListener('click',()=>metroTimer?metroStop():metroStart());
+Q('#metroBpm').addEventListener('input',e=>{Q('#metroBpmLbl').textContent=fa(e.target.value);if(metroTimer)metroStart()});
+
+/* ---- ۴) آرام‌سازی / تمرین تنفس ---- */
+let calmTimer=null,calmStep=0;
+const CALM_STEPS=[['دم بکشید…',4000,true],['نگه دارید…',4000,null],['بازدم دهید…',6000,false]];
+function calmTick(){
+  const[label,dur,expand]=CALM_STEPS[calmStep%CALM_STEPS.length];
+  Q('#calmRing').textContent=label;
+  if(expand===true)Q('#calmRing').classList.add('big');
+  if(expand===false)Q('#calmRing').classList.remove('big');
+  calmStep++;
+  calmTimer=setTimeout(calmTick,dur);
+}
+Q('#calmToggle').addEventListener('click',()=>{
+  if(calmTimer){clearTimeout(calmTimer);calmTimer=null;calmStep=0;Q('#calmRing').textContent='شروع کنید';Q('#calmRing').classList.remove('big');Q('#calmToggle').textContent='▶ شروع تمرین تنفس';}
+  else{calmTick();Q('#calmToggle').textContent='⏸ توقف تمرین'}
+});
+
+/* ---- ۵) صرفه‌جویی باتری ---- */
+window.__batterySave=st.get('batterySave',false);
+function applyPwr(){
+  document.body.classList.toggle('battery-save',window.__batterySave);
+  Q('#pwrSw').classList.toggle('on',window.__batterySave);
+  Q('#pwrSw').setAttribute('aria-checked',String(window.__batterySave));
+}
+Q('#pwrSw').addEventListener('click',()=>{window.__batterySave=!window.__batterySave;st.set('batterySave',window.__batterySave);applyPwr()});
+Q('#pwrSw').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();Q('#pwrSw').click()}});
+applyPwr();
+
+/* ---- ۶) آخرین داده‌ٔ ذخیره‌شده ---- */
+function fmtAgo(t){
+  if(!t)return 'هنوز دریافت نشده';
+  const m=Math.round((Date.now()-t)/60000);
+  const time=new Date(t).toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});
+  return (m<1?'همین الان':m<60?fa(m)+' دقیقه پیش':fa(new Date(t).toLocaleDateString('fa-IR'))+'، '+fa(time))+' ('+fa(time)+')';
+}
+function statusDot(t){
+  if(!t)return 'r';
+  const m=(Date.now()-t)/60000;
+  return m<15?'g':m<60?'y':'r';
+}
+function renderLast(){
+  const price=st.get('priceCache',null);
+  const news=st.get('newsCache',{});
+  let newestNews=0,newsCount=0;
+  Object.values(news).forEach(v=>{if(v&&v.t){newestNews=Math.max(newestNews,v.t);newsCount+=(v.items||[]).length}});
+  const cards=[
+    ['💰 قیمت‌ها',price&&price.t?fmtAgo(price.t):'هنوز دریافت نشده',statusDot(price&&price.t)],
+    ['📰 اخبار',newestNews?fmtAgo(newestNews)+' — '+fa(newsCount)+' خبر ذخیره‌شده':'هنوز دریافت نشده',statusDot(newestNews)],
+  ];
+  Q('#lastGrid').innerHTML=cards.map(c=>`<div class="last-card"><span class="dot ${c[2]}"></span><b>${c[0]}</b><span>${c[1]}</span></div>`).join('');
+}
+renderLast();
+Q('#lastRefresh').addEventListener('click',renderLast);
+setInterval(renderLast,30000);
+
+/* ---- ۷) چراغ‌قوه و آژیر ---- */
+Q('#torchBtn').addEventListener('click',()=>Q('#torchOv').classList.add('on'));
+Q('#torchOv').addEventListener('click',()=>Q('#torchOv').classList.remove('on'));
+let sirenCtx=null,sirenNode=null;
+Q('#sirenBtn').addEventListener('click',()=>{
+  if(sirenNode){sirenNode.stop();sirenNode=null;Q('#sirenBtn').textContent='📢 پخش آژیر/سوت';return}
+  try{
+    sirenCtx=sirenCtx||new (window.AudioContext||window.webkitAudioContext)();
+    const o=sirenCtx.createOscillator(),g=sirenCtx.createGain();
+    o.type='sine';g.gain.value=.25;o.connect(g);g.connect(sirenCtx.destination);
+    let up=true;o.frequency.value=600;
+    const sweep=setInterval(()=>{o.frequency.linearRampToValueAtTime(up?1400:600,sirenCtx.currentTime+.5);up=!up},500);
+    o.start();o.onended=()=>clearInterval(sweep);
+    sirenNode=o;Q('#sirenBtn').textContent='⏹ توقف آژیر';
+  }catch(err){toastEmg('پخش صدا در این مرورگر ممکن نیست.','err')}
+});
+})();
+}catch(err){console.error('prep/qibla addon:',err)}
+})();
 </script>
 </body>
 </html>
