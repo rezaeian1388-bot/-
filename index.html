@@ -495,6 +495,7 @@ main.wrap{padding-bottom:76px}
 </style>
 </head>
 <body>
+<div id="offlineBar" style="display:none;position:sticky;top:0;z-index:999;text-align:center;padding:8px 12px;font-size:13px;font-weight:700"></div>
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#" aria-label="سبهد">
@@ -653,7 +654,6 @@ main.wrap{padding-bottom:76px}
           <div class="full"><button type="button" class="btn sm" id="qApply">محاسبه با این مختصات</button></div>
         </div>
         <p class="qb-status" id="qStatus" role="status" aria-live="polite"></p>
-        <div class="pp-warn" id="qInsecureWarn" hidden>⚠️ این صفحه از یک نشانی امن (https) باز نشده — به همین دلیل مرورگر گوشی اجازه‌ی دسترسی به GPS و قطب‌نما را نمی‌دهد، حتی اگر دکمه‌ها را بزنید. راه‌حل: این فایل را روی یک هاست واقعی با https (مثلاً GitHub Pages، Netlify یا Cloudflare Pages) بگذارید و از همان نشانی باز کنید؛ باز کردن مستقیم فایل یا لینک آن از تلگرام/بله/ایتا این مشکل را حل نمی‌کند. تا آن زمان، از «انتخاب شهر» برای گرفتن عدد زاویه استفاده کنید و با قطب‌نمای پیش‌فرض گوشی (که یک اپ است، نه سایت) آن زاویه را پیدا کنید.</div>
         <div class="qb-note">گوشی را صاف و دور از فلز و آهنربا نگه دارید. اگر دقت کم بود، آن را چند بار به شکل عدد ۸ حرکت دهید. وقتی حلقه سبز شد و کعبه زیر نشانه‌ی بالا قرار گرفت، رو به قبله‌اید. اگر قطب‌نما کار نکرد، از عدد زاویه با یک قطب‌نمای معمولی استفاده کنید. انحراف مغناطیسی اعمال نمی‌شود و ممکن است چند درجه خطا داشته باشد.</div>
       </div>
     </div>
@@ -707,6 +707,7 @@ main.wrap{padding-bottom:76px}
       <button type="button" class="mini on" role="tab" data-e="msg">📨 پیام «سالمم»</button>
       <button type="button" class="mini" role="tab" data-e="card">🪪 کارت اضطراری</button>
       <button type="button" class="mini" role="tab" data-e="aid">🩹 کمک‌های اولیه</button>
+      <button type="button" class="mini" role="tab" data-e="water">💧 آب</button>
       <button type="button" class="mini" role="tab" data-e="calm">🌬️ آرام‌سازی</button>
       <button type="button" class="mini" role="tab" data-e="pwr">🔋 صرفه‌جویی باتری</button>
       <button type="button" class="mini" role="tab" data-e="last">🕓 آخرین داده</button>
@@ -723,8 +724,21 @@ main.wrap{padding-bottom:76px}
         <button type="button" class="emg-btn ghost" id="ctPick">📇 انتخاب از مخاطبین گوشی</button>
       </div>
       <div class="contact-list" id="ctList"></div>
+      <div class="emg-row" style="margin-top:10px">
+        <div class="f"><label class="pl">نوع پیام</label>
+          <select class="pi" id="msgType">
+            <option value="ok">✅ سالمم</option>
+            <option value="hurt">🩹 مجروحم</option>
+            <option value="shelter">🏚️ در پناهگاه هستم</option>
+            <option value="evac">🚗 در حال تخلیه هستم</option>
+          </select>
+        </div>
+        <div class="f" id="shelterWrap" style="display:none"><label class="pl">نام/محل پناهگاه</label><input class="pi" id="shelterName" placeholder="مثلاً ایستگاه مترو…"></div>
+        <div class="f" id="evacWrap" style="display:none"><label class="pl">مقصد</label><input class="pi" id="evacDest" placeholder="مثلاً خانه‌ی خاله در…"></div>
+        <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mute)"><input type="checkbox" id="msgLatin"> نسخه‌ی کوتاه لاتین (برای پیامک مطمئن‌تر)</label>
+      </div>
       <div class="emg-row" style="margin-top:4px">
-        <button type="button" class="emg-btn" id="sendSafe">✅ ارسال «سالمم» با موقعیت من</button>
+        <button type="button" class="emg-btn" id="sendSafe">✅ ارسال پیام با موقعیت من</button>
         <button type="button" class="emg-btn ghost" id="copySafe">📋 کپی متن پیام</button>
       </div>
       <p class="emg-status" id="safeStatus" role="status" aria-live="polite"></p>
@@ -744,7 +758,15 @@ main.wrap{padding-bottom:76px}
         <button type="button" class="mini on" data-a="bleed">🩸 خونریزی</button>
         <button type="button" class="mini" data-a="burn">🔥 سوختگی</button>
         <button type="button" class="mini" data-a="frac">🦴 شکستگی</button>
-        <button type="button" class="mini" data-a="cpr">❤️ CPR</button>
+        <button type="button" class="mini" data-a="cpr">❤️ CPR بزرگسال</button>
+        <button type="button" class="mini" data-a="cprc">👶 CPR کودک و نوزاد</button>
+        <button type="button" class="mini" data-a="choke">😧 خفگی (جسم خارجی)</button>
+        <button type="button" class="mini" data-a="chest">🫁 زخم نافذ قفسه‌سینه</button>
+        <button type="button" class="mini" data-a="crush">🧱 له‌شدگی و آسیب انفجار</button>
+        <button type="button" class="mini" data-a="cold">🥶 سرمازدگی و هیپوترمی</button>
+        <button type="button" class="mini" data-a="co">☠️ مسمومیت با مونوکسیدکربن</button>
+        <button type="button" class="mini" data-a="birth">🤰 زایمان اضطراری</button>
+        <button type="button" class="mini" data-a="chronic">💊 دیابت، انسولین و بیماری مزمن</button>
       </div>
       <div class="aid-box on" id="aid-bleed"></div>
       <div class="aid-box" id="aid-burn"></div>
@@ -758,7 +780,32 @@ main.wrap{padding-bottom:76px}
           <input type="range" id="metroBpm" min="100" max="120" step="1" value="110">
         </div>
       </div>
+      <div class="aid-box" id="aid-cprc"></div>
+      <div class="aid-box" id="aid-choke"></div>
+      <div class="aid-box" id="aid-chest"></div>
+      <div class="aid-box" id="aid-crush"></div>
+      <div class="aid-box" id="aid-cold"></div>
+      <div class="aid-box" id="aid-co"></div>
+      <div class="aid-box" id="aid-birth"></div>
+      <div class="aid-box" id="aid-chronic"></div>
       <div class="emg-note">این راهنما جایگزین آموزش رسمی نیست. برای آموزش کامل و معتبر کمک‌های اولیه و CPR به دوره‌های هلال‌احمر مراجعه کنید.</div>
+    </div>
+
+    <!-- آب -->
+    <div class="pp-pane" id="emg-water">
+      <p class="sub" style="margin:0 0 10px">مقدار آب لازم را حساب کنید و روش‌های ضدعفونی آب را ببینید — کاملاً آفلاین.</p>
+      <div class="emg-row">
+        <div class="f"><label class="pl">تعداد نفرات</label><input class="pi" id="wPeople" type="number" min="1" value="4"></div>
+        <div class="f"><label class="pl">تعداد روز</label><input class="pi" id="wDays" type="number" min="1" value="3"></div>
+        <button type="button" class="emg-btn" id="wCalc">🧮 محاسبه</button>
+      </div>
+      <div class="emg-status" id="wResult" role="status" aria-live="polite" style="font-size:16px;font-weight:700"></div>
+      <div class="emg-note" style="margin-top:14px">
+      <b>سرانه‌ی توصیه‌شده:</b> حدود ۳ تا ۴ لیتر برای نوشیدن هر نفر در روز، به‌علاوه حدود ۲ تا ۳ لیتر برای پخت‌وپز و بهداشت پایه؛ در هوای گرم یا برای زنان باردار و کودکان مقدار بیشتری در نظر بگیرید.<br><br>
+      <b>جوشاندن:</b> آب را به‌مدت حداقل ۱ دقیقه (در ارتفاع بالا حدود ۳ دقیقه) به‌جوش کامل برسانید تا اغلب میکروب‌ها از بین بروند؛ بگذارید پیش از نوشیدن خنک شود.<br><br>
+      <b>ضدعفونی با وایتکس (کلر خانگی بدون افزودنی و رایحه):</b> به‌ازای هر ۱ لیتر آب صاف، حدود ۲ قطره وایتکس معمولی (۵ درصد) اضافه کنید؛ خوب هم بزنید و ۳۰ دقیقه پیش از نوشیدن صبر کنید. اگر بوی کلر خیلی کم بود، یک قطره دیگر اضافه کنید و دوباره ۱۵ دقیقه صبر کنید. برای آب کدر، ابتدا از پارچه‌ی تمیز صاف کنید.<br><br>
+      <b>ORS خانگی (برای اسهال و کم‌آبی):</b> به هر ۱ لیتر آب سالم، ۶ قاشق چای‌خوری شکر و نیم قاشق چای‌خوری نمک اضافه کنید و کاملاً حل کنید؛ در طول روز کم‌کم بنوشید. این محلول جایگزین درمان پزشکی برای اسهال شدید یا طولانی نیست.
+      </div>
     </div>
 
     <!-- آرام‌سازی -->
@@ -810,7 +857,7 @@ main.wrap{padding-bottom:76px}
 
 <footer><div class="wrap"><b class="grad">سبهد</b> · سایت برنامه‌های داخلی<br>
 سایتی جا مانده؟ با «＋ سایت من» اضافه کنید — نماد هر سایت یا برنامه را هم می‌توانید با دکمه‌ی 🖼 روی کارتش عوض کنید.<br>
-همه‌ی داده‌ها فقط از سایت‌های ایرانی گرفته می‌شود؛ هیچ سرویس یا فونت خارجی‌ای در کار نیست.</div></footer>
+داده‌های خبر، قیمت و آب‌وهوا از سایت‌های ایرانی گرفته می‌شود، ولی برای عبور از محدودیت‌ها از چند واسطه‌ی خارجی (allorigins، corsproxy.io، codetabs) و برای آب‌وهوا از open-meteo استفاده می‌شود؛ این بخش‌ها فقط با اینترنت کار می‌کنند. بخش‌های «ابزارهای اضطراری»، کمک‌های اولیه، قبله‌نما و برگه‌ی خانواده کاملاً آفلاین‌اند.</div></footer>
 
 <!-- پنجره‌ی افزودن / ویرایش -->
 <div class="modal" id="modal" hidden>
@@ -860,6 +907,30 @@ const CONFIG={
 /* ===== ابزارها ===== */
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={get(k,d){try{const v=localStorage.getItem('sabhad:'+k);return v==null?d:JSON.parse(v)}catch{return d}},set(k,v){try{localStorage.setItem('sabhad:'+k,JSON.stringify(v));return true}catch{return false}}};
+
+/* ===== نوار وضعیت آفلاین ===== */
+function markDataUpdated(){store.set('lastDataUpdate',Date.now());renderOfflineBar()}
+function renderOfflineBar(){
+  const bar=document.getElementById('offlineBar');if(!bar)return;
+  const online=navigator.onLine;
+  if(online){bar.style.display='none';return}
+  const t=store.get('lastDataUpdate',null);
+  let ago='هرگز به‌روزرسانی نشده';
+  if(t){
+    const mins=Math.round((Date.now()-t)/60000);
+    if(mins<1)ago='کمتر از یک دقیقه پیش';
+    else if(mins<60)ago=NF(mins)+' دقیقه پیش';
+    else if(mins<60*24)ago=NF(Math.round(mins/60))+' ساعت پیش';
+    else ago=NF(Math.round(mins/60/24))+' روز پیش';
+  }
+  bar.style.background='#3a1414';bar.style.color='#ffb4b4';
+  bar.textContent='⚠️ آفلاین هستید — اخبار، قیمت و آب‌وهوا به‌روز نمی‌شوند (آخرین به‌روزرسانی: '+ago+'). ابزارهای اضطراری و کمک‌های اولیه همچنان کار می‌کنند.';
+  bar.style.display='block';
+}
+window.addEventListener('online',renderOfflineBar);
+window.addEventListener('offline',renderOfflineBar);
+document.addEventListener('DOMContentLoaded',renderOfflineBar);
+renderOfflineBar();
 
 /* ===== سه صفحه‌ی اصلی ===== */
 function showPage(p){
@@ -1592,7 +1663,7 @@ async function loadPrices(){
   let r=null;try{r=await fetchPrices()}catch{}
   const t=tehranNow(),hm=fa(pad(t.h)+':'+pad(t.mi));
   if(r&&Object.keys(r.P).length){
-    PRICES=r.P;renderTicks(r.P);addSamples(r.P);store.set('priceCache',{t:Date.now(),P:r.P});
+    PRICES=r.P;renderTicks(r.P);addSamples(r.P);store.set('priceCache',{t:Date.now(),P:r.P});markDataUpdated();
     const missing=TICKS.some(x=>!r.P[x.k]);
     sub.textContent=`به‌روز شد ${hm} · منبع: ${r.src==='tgju'?'TGJU':'بازار تتر (والکس / نوبیتکس)'}${r.server?' · از طریق سرور همراه':''}`+(missing?' · برای یورو و طلا به سرور همراه یا پروکسی نیاز است':'');
     if(CH.sampleMode||!CH.s)loadChart();
@@ -1943,7 +2014,7 @@ async function loadNews(retry){
   try{
     const items=await fetchNews(src);
     if(seq!==newsState.seq)return;
-    cache[src.id]={t:Date.now(),items};store.set('newsCache',cache);
+    cache[src.id]={t:Date.now(),items};store.set('newsCache',cache);markDataUpdated();
     const t=tehranNow();renderNews(items,`${src.n} · به‌روز شد ${fa(pad(t.h)+':'+pad(t.mi))}${API.base?' · سرور همراه':''}`,src);
   }catch{
     if(seq!==newsState.seq)return;
@@ -2065,17 +2136,11 @@ function setLoc(lat,lon,label){
   sel.innerHTML='<option value="">انتخاب شهر</option>'+Object.keys(cities).map(c=>`<option>${c}</option>`).join('');
   sel.addEventListener('change',()=>{const c=cities[sel.value];if(c)setLoc(c[0],c[1],sel.value)});
   Q('#qApply').addEventListener('click',()=>setLoc(parseFloat(toEn(Q('#qLat').value)),parseFloat(toEn(Q('#qLon').value)),'مختصات دستی'));
-  if(!window.isSecureContext)Q('#qInsecureWarn').hidden=false;
   Q('#qGps').addEventListener('click',()=>{
-    if(!window.isSecureContext){
-      Q('#qInsecureWarn').hidden=false;
-      setStatus('چون این صفحه با https باز نشده، گوشی اجازه‌ی GPS نمی‌دهد. توضیح بالا را ببینید یا شهر خود را از فهرست انتخاب کنید.');
-      return;
-    }
     if(!navigator.geolocation){setStatus('این مرورگر GPS را پشتیبانی نمی‌کند. شهر خود را انتخاب کنید.');return}
-    setStatus('در حال گرفتن موقعیت… ممکن است چند ثانیه طول بکشد و مرورگر از شما اجازه بخواهد.');
+    setStatus('در حال گرفتن موقعیت… ممکن است چند ثانیه طول بکشد.');
     navigator.geolocation.getCurrentPosition(p=>{sel.value='';setLoc(p.coords.latitude,p.coords.longitude,'GPS')},err=>{
-      setStatus(err.code===1?'دسترسی به موقعیت رد شد. روی آیکون قفل/اطلاعات سایت کنار نشانی صفحه بزنید و دسترسی «موقعیت مکانی» را روی اجازه‌دادن بگذارید، یا شهر خود را انتخاب کنید.':err.code===3?'دریافت موقعیت طول کشید و لغو شد. اگر GPS گوشی روشن است دوباره امتحان کنید یا شهر خود را انتخاب کنید.':'موقعیت پیدا نشد. به فضای باز بروید یا شهر خود را انتخاب کنید.');
+      setStatus(err.code===1?'دسترسی به موقعیت رد شد. در تنظیمات مرورگر اجازه دهید یا شهر خود را انتخاب کنید.':'موقعیت پیدا نشد. به فضای باز بروید یا شهر خود را انتخاب کنید.');
     },{enableHighAccuracy:true,timeout:20000,maximumAge:600000});
   });
   const saved=st.get('qLoc',null);
@@ -2111,9 +2176,8 @@ const onOri=e=>{
 let noSignalT=null;
 Q('#qStart').addEventListener('click',()=>{
   if(qibla===null){setStatus('اول موقعیت خود را با GPS یا انتخاب شهر تعیین کنید.');return}
-  if(!window.isSecureContext){
-    Q('#qInsecureWarn').hidden=false;
-    setStatus('چون این صفحه با https باز نشده، مرورگر اجازه‌ی دسترسی به سنسور قطب‌نما را نمی‌دهد. توضیح بالا را ببینید، یا از عدد زاویه با قطب‌نمای پیش‌فرض گوشی کمک بگیرید.');
+  if(location.protocol!=='https:'&&location.protocol!=='file:'){
+    setStatus('قطب‌نمای گوشی فقط روی نشانی‌ای که با https شروع شود کار می‌کند (نه http). این صفحه را از یک نشانی https باز کنید، یا از عدد زاویه‌ی بالا با یک قطب‌نمای معمولی کمک بگیرید.');
     return;
   }
   const start=()=>{
@@ -2445,7 +2509,96 @@ const AID={
   aidStep(6,'در صورت بلد بودن، تنفس مصنوعی هم اضافه کنید','۳۰ ماساژ و سپس ۲ تنفس دهان‌به‌دهان یک چرخه است؛ اگر تنفس مصنوعی بلد نیستید، همان ماساژ پیوسته (Hands-only CPR) به‌تنهایی هم مؤثر است و بهتر از انجام‌ندادن هیچ‌کاری است.')+
   aidStep(7,'تا رسیدن اورژانس یا برگشت هوشیاری ادامه دهید','اگر دستگاه AED (دفیبریلاتور خودکار) در دسترس بود، طبق دستورات صوتی‌اش استفاده کنید؛ خاموش‌کردن احیا فقط با رسیدن نیروی امداد یا بازگشت واضح تنفس فرد است.')+
   '</div>'+
-  aidCallout('info','ℹ️','برای <b>نوزاد و کودک خردسال</b> عمق و شدت فشار باید کمتر باشد (حدود یک‌سوم قطر قفسه‌سینه)؛ در صورت امکان از آموزش تخصصی CPR کودکان هلال‌احمر استفاده کنید.')
+  aidCallout('info','ℹ️','برای <b>نوزاد و کودک خردسال</b> عمق و شدت فشار باید کمتر باشد (حدود یک‌سوم قطر قفسه‌سینه)؛ در صورت امکان از آموزش تخصصی CPR کودکان هلال‌احمر استفاده کنید.'),
+
+ cprc:
+  aidHead('👶','CPR کودک و نوزاد','تفاوت‌های اصلی نسبت به CPR بزرگسال')+
+  '<div class="aid-steps">'+
+  aidStep(1,'ابتدا واکنش و تنفس را بررسی کنید','مثل بزرگسال؛ اگر پاسخی نبود و نفس طبیعی نداشت، احیا را شروع کنید. برای نوزاد زیر یک سال و کودک، پیش از تماس با ۱۱۵ حدود یک دقیقه احیا را انجام دهید، سپس اگر تنها هستید تماس بگیرید.')+
+  aidStep(2,'محل فشار برای کودک (۱ تا ۸ سال)','با یک دست (یا دو دست اگر لازم بود) وسط قفسه‌سینه فشار دهید؛ عمق حدود ۵ سانتی‌متر یا یک‌سوم قطر قفسه‌سینه.')+
+  aidStep(3,'محل فشار برای نوزاد (زیر ۱ سال)','با دو انگشت، درست زیر خط نوک‌پستان‌ها فشار دهید؛ عمق حدود ۴ سانتی‌متر یا یک‌سوم قطر قفسه‌سینه. هرگز از فشار شدید بزرگسال استفاده نکنید.')+
+  aidStep(4,'ریتم و چرخه','۳۰ فشار و سپس ۲ تنفس (اگر دو نفر امدادگر هستید، ۱۵ فشار و ۲ تنفس)؛ سرعت ۱۰۰ تا ۱۲۰ ضربه در دقیقه، مثل بزرگسال.')+
+  aidStep(5,'تنفس مصنوعی نوزاد','دهان خود را روی دهان و بینی نوزاد هم‌زمان بگذارید و به‌آرامی بدمید تا فقط قفسه‌سینه کمی بالا بیاید؛ فشار زیاد به ریه آسیب می‌زند.')+
+  '</div>'+
+  aidCallout('danger','⚠️','اگر کودک یا نوزاد <b>واکنش دارد و نفس می‌کشد</b> ولی به‌سختی، او را احیا نکنید؛ فقط در آغوش نیمه‌نشسته نگه دارید و فوراً به اورژانس برسانید.'),
+
+ choke:
+  aidHead('😧','خفگی با جسم خارجی (راه هوایی بسته)','وقتی فرد نمی‌تواند نفس بکشد، سرفه کند یا صحبت کند')+
+  '<div class="aid-steps">'+
+  aidStep(1,'اول مطمئن شوید واقعاً راه هوایی بسته است','اگر فرد می‌تواند سرفه کند یا صدا دربیاورد، دخالت نکنید و فقط تشویقش کنید محکم سرفه کند؛ سرفه‌ی قوی خودش جسم را بیرون می‌اندازد.')+
+  aidStep(2,'برای بزرگسال و کودک بزرگ‌تر: ۵ ضربه به پشت','پشت فرد بایستید، کمی به جلو خمش کنید و با کف دست ۵ ضربه‌ی محکم بین دو کتف بزنید.')+
+  aidStep(3,'اگر جواب نداد: مانور هایملیک (۵ فشار شکمی)','از پشت دور کمر فرد دست بیندازید، یک مشت بالای ناف و زیر جناغ بگذارید، با دست دیگر بگیرید و ۵ بار محکم به داخل و بالا فشار دهید. ۵ ضربه‌ی پشت و ۵ فشار شکمی را به‌نوبت تکرار کنید تا جسم خارج شود.')+
+  aidStep(4,'برای نوزاد زیر یک سال، از فشار شکمی استفاده نکنید','نوزاد را رو به پایین روی ساعد خود بخوابانید و ۵ ضربه‌ی ملایم بین دو کتف بزنید؛ سپس برش دهید و ۵ فشار ملایم با دو انگشت وسط قفسه‌سینه (مثل CPR نوزاد) بدهید. تکرار کنید.')+
+  aidStep(5,'اگر فرد بی‌هوش شد','او را روی زمین بخوابانید و فوراً CPR را شروع کنید؛ پیش از هر تنفس مصنوعی، داخل دهان را نگاه کنید و اگر جسمی دیدید که به‌راحتی قابل برداشتن بود، آن را خارج کنید.')+
+  '</div>'+
+  aidCallout('info','ℹ️','برای <b>زنان باردار یا افراد چاق</b> به‌جای فشار شکمی، فشار روی وسط قفسه‌سینه (مثل CPR) بدهید.'),
+
+ chest:
+  aidHead('🫁','زخم نافذ قفسه‌سینه (زخم مکنده)','آسیب ناشی از ترکش، گلوله یا جسم تیز که به داخل قفسه‌سینه نفوذ کرده')+
+  '<div class="aid-steps">'+
+  aidStep(1,'علامت هشدار: صدای مکش یا حباب از زخم','اگر با هر نفس صدای مکش می‌شنوید یا از زخم حباب خون بیرون می‌زند، یعنی هوا وارد قفسه‌سینه می‌شود — این اورژانس فوری است.')+
+  aidStep(2,'زخم را با پانسمان سه‌طرفه ببندید','یک پوشش غیرقابل‌نفوذ به هوا (نایلون تمیز، بسته‌بندی پانسمان یا پلاستیک) روی زخم بگذارید و فقط سه طرف آن را با چسب محکم کنید و یک طرف را باز بگذارید؛ این کار اجازه می‌دهد هوای اضافه از قفسه‌سینه خارج شود ولی هوای بیرون وارد نشود.')+
+  aidStep(3,'اگر پانسمان مخصوص ندارید','از هر پوشش تمیز و غیرقابل‌نفوذ به هوا (مثل کیسه‌ی فریزر) استفاده کنید؛ داشتن پوشش موقت بهتر از نداشتن آن است.')+
+  aidStep(4,'فرد را در وضعیت نیمه‌نشسته یا به‌پهلوی سمت آسیب‌دیده بخوابانید','این وضعیت تنفس ریه‌ی سالم را راحت‌تر می‌کند.')+
+  aidStep(5,'علائم حیاتی را زیر نظر بگیرید','اگر تنفس بدتر شد یا فرد بی‌هوش شد و نفس نداشت، CPR را شروع کنید و پانسمان یک‌طرفه را همچنان روی زخم نگه دارید.')+
+  '</div>'+
+  aidCallout('danger','⚠️','هرگز جسم فرورفته در قفسه‌سینه را <b>بیرون نکشید</b>؛ دور آن را ثابت کنید و فوراً با ۱۱۵ تماس بگیرید. این آسیب همیشه نیازمند مراقبت فوری پزشکی است.'),
+
+ crush:
+  aidHead('🧱','له‌شدگی و آسیب موج انفجار','آوار، ریزش ساختمان یا نزدیکی به انفجار')+
+  '<div class="aid-steps">'+
+  aidStep(1,'فرد گیرافتاده را زودتر از ۱۵ دقیقه آزاد نکنید مگر جانش در خطر باشد','آزادسازی ناگهانی عضو له‌شده می‌تواند مواد سمی را وارد جریان خون کند و خطرناک باشد؛ در صورت امکان منتظر تیم امداد بمانید.')+
+  aidStep(2,'در آسیب موج انفجار، به علائم پنهان مشکوک باشید','حتی بدون زخم ظاهری، موج انفجار می‌تواند به ریه، گوش و اندام‌های داخلی آسیب بزند: تنگی نفس، درد قفسه‌سینه، خونریزی از گوش یا بینی، سرگیجه و کاهش شنوایی از علائم هشدارند.')+
+  aidStep(3,'خونریزی و شکستگی را طبق راهنمای مربوطه کنترل کنید','در آسیب‌های ترکیبی، اول خونریزی تهدیدکننده‌ی جان را کنترل کنید، سپس شکستگی را بی‌حرکت کنید.')+
+  aidStep(4,'فرد را گرم و آرام نگه دارید و علائم شوک را زیر نظر بگیرید','پوست رنگ‌پریده و سرد، نبض سریع و ضعیف و بی‌قراری از علائم شوک‌اند.')+
+  aidStep(5,'در این موارد فوراً با ۱۱۵ تماس بگیرید','بی‌حسی یا سردی طولانی در عضو گیرافتاده، تنگی نفس، درد شدید قفسه‌سینه، خونریزی از گوش، یا کاهش سطح هوشیاری.')+
+  '</div>'+
+  aidCallout('danger','⚠️','وارد شدن به ساختمان ناپایدار یا آوار برای نجات دیگران بدون تجهیزات و آموزش، خطر جانی جدی دارد؛ در صورت امکان منتظر تیم امداد حرفه‌ای بمانید.'),
+
+ cold:
+  aidHead('🥶','سرمازدگی و هیپوترمی (افت دمای بدن)','در قطعی برق، بی‌خانمانی یا اقامت در فضای سرد')+
+  '<div class="aid-steps">'+
+  aidStep(1,'علائم هیپوترمی را بشناسید','لرز شدید، گیجی، سخن‌گفتن نامفهوم، خواب‌آلودگی غیرعادی و کندشدن حرکات؛ در موارد شدید لرز قطع می‌شود که خودش نشانه‌ی خطرناکی است.')+
+  aidStep(2,'فرد را از سرما و رطوبت دور کنید','لباس خیس یا سرد را با پارچه‌ی خشک و گرم عوض کنید و او را به مکانی گرم‌تر ببرید.')+
+  aidStep(3,'گرمایش تدریجی، نه ناگهانی','با پتو، پتوی اضطراری و تماس پوست‌به‌پوست گرمش کنید؛ از آب داغ، حمام گرم شدید یا مالش شدید اندام خودداری کنید چون می‌تواند خطرناک باشد.')+
+  aidStep(4,'اگر هوشیار است، نوشیدنی گرم و شیرین (نه الکل و نه قهوه) بدهید','این کار انرژی و دمای بدن را کمی بالا می‌برد؛ هرگز به فرد نیمه‌هوشیار چیزی نخورانید.')+
+  aidStep(5,'علائم سرمازدگی موضعی (انگشتان، گوش، بینی)','پوست سفید یا خاکستری، سفت و بی‌حس؛ ناحیه را با گرمای بدن یا پارچه‌ی گرم (نه مستقیم روی بخاری) گرم کنید و مالش ندهید.')+
+  '</div>'+
+  aidCallout('danger','⚠️','در هیپوترمی شدید، جابه‌جایی خشن یا مالش شدید می‌تواند باعث ایست قلبی شود؛ فرد را آرام و بدون حرکت اضافه جابه‌جا کنید و فوراً کمک پزشکی بگیرید.'),
+
+ co:
+  aidHead('☠️','مسمومیت با مونوکسیدکربن (CO)','خطر جدی بخاری، ژنراتور و وسایل گازسوز در فضای بسته و قطعی برق')+
+  '<div class="aid-callout danger"><span class="ic">⚠️</span><span>مونوکسیدکربن بی‌رنگ و بی‌بوست. <b>هرگز ژنراتور، منقل، کباب‌پز یا بخاری نفتی/گازی بدون دودکش را داخل خانه، زیرزمین، پناهگاه یا حتی راهرو و بالکن سرپوشیده روشن نکنید.</b></span></div>'+
+  '<div class="aid-steps">'+
+  aidStep(1,'علائم هشدار مسمومیت با CO را بشناسید','سردرد، سرگیجه، حالت تهوع، ضعف و گیجی؛ اگر چند نفر هم‌زمان در یک فضا همین علائم را دارند، به مسمومیت CO مشکوک شوید.')+
+  aidStep(2,'فوراً فرد را به هوای آزاد ببرید','پنجره و در را باز کنید و منبع احتراق (بخاری، ژنراتور و…) را خاموش کنید یا از فضا خارج کنید.')+
+  aidStep(3,'اگر فرد بی‌هوش است و نفس نمی‌کشد، CPR را شروع کنید','هم‌زمان از کسی بخواهید با ۱۱۵ تماس بگیرد.')+
+  aidStep(4,'پیشگیری در قطعی برق','بخاری و ژنراتور را همیشه در فضای کاملاً باز و دور از پنجره و درگاه هوا روشن کنید؛ اگر امکانش هست، هشداردهنده‌ی CO باتری‌خور تهیه کنید.')+
+  '</div>',
+
+ birth:
+  aidHead('🤰','زایمان اضطراری بدون امکان رسیدن به بیمارستان','وقتی زمان کافی برای رسیدن به مرکز درمانی نیست')+
+  '<div class="aid-steps">'+
+  aidStep(1,'در صورت امکان با اورژانس تماس بگیرید و دستورات تلفنی را دنبال کنید','حتی اگر امداد دیر برسد، راهنمایی تلفنی می‌تواند نجات‌بخش باشد.')+
+  aidStep(2,'مادر را در جای تمیز، دراز کشیده و با زانوهای خم‌شده و کمی بازشده قرار دهید','زیر باسن او پارچه یا حوله‌ی تمیز بگذارید.')+
+  aidStep(3,'اجازه دهید زایمان طبیعی پیش برود؛ نکشید و فشار وارد نکنید','وقتی سر نوزاد دیده شد، فقط به‌آرامی زیر سر و بدن نوزاد را نگه دارید تا خودش بیرون بیاید.')+
+  aidStep(4,'بلافاصله پس از تولد، نوزاد را خشک و گرم کنید','با پارچه‌ی تمیز و خشک بدن نوزاد را پاک کنید و او را روی سینه‌ی مادر (پوست‌به‌پوست) بگذارید و بپوشانید.')+
+  aidStep(5,'بند ناف را قطع نکنید مگر لازم باشد','اگر باید قطع شود، حدود ۱۰ تا ۱۵ سانتی‌متر از بدن نوزاد فاصله بگیرید، دو جا با نخ تمیز محکم ببندید و بین آن دو با وسیله‌ی تمیز و تیز ببرید.')+
+  aidStep(6,'جفت را منتظر بمانید، نکشید','جفت معمولاً ظرف ۳۰ دقیقه تا یک ساعت خودبه‌خود خارج می‌شود؛ آن را در پارچه بپیچید و همراه مادر و نوزاد به مرکز درمانی برسانید.')+
+  aidStep(7,'خونریزی مادر بعد از زایمان را زیر نظر بگیرید','مالش ملایم شکم پایین مادر (بالای ناف) می‌تواند به انقباض رحم و کاهش خونریزی کمک کند.')+
+  '</div>'+
+  aidCallout('danger','⚠️','اگر بند ناف دور گردن نوزاد پیچیده بود، به‌آرامی با انگشت آن را از روی سر رد کنید؛ اگر نشد، به‌محض تولد شانه‌ها آن را شل کنید. در خونریزی شدید مادر یا عدم تنفس نوزاد پس از تولد، فوراً به کمک تخصصی نیاز است.'),
+
+ chronic:
+  aidHead('💊','دیابت، انسولین و بیماران مزمن در بحران','وقتی دارو، یخچال یا دسترسی به داروخانه محدود است')+
+  '<div class="aid-steps">'+
+  aidStep(1,'همیشه حداقل چند روز داروی اضافه همراه داشته باشید','برای انسولین، داروی قلب، فشار خون، صرع و داروهای مشابه، نسخه و مقداری داروی ذخیره در کیف اضطراری بگذارید.')+
+  aidStep(2,'انسولین را بدون یخچال هم می‌توان نگه داشت','انسولین بسته‌نشده معمولاً تا حدود ۲۸ روز در دمای اتاق (زیر ۳۰ درجه، دور از نور مستقیم و گرمای شدید) قابل استفاده است؛ اگر امکانش بود در پارچه‌ی خیس یا ظرف خنک‌کننده نگه دارید، ولی روی یخ مستقیم نگذارید.')+
+  aidStep(3,'علائم افت شدید قند خون را بشناسید','لرزش، تعریق سرد، گیجی، رفتار غیرعادی یا بی‌هوشی؛ اگر فرد هوشیار است، فوراً چیزی شیرین (آب‌نبات، آب‌میوه، قند) بدهید.')+
+  aidStep(4,'علائم قند خون بسیار بالا را بشناسید','تشنگی شدید، ادرار زیاد، تنفس عمیق و سریع، بوی خاص نفس؛ در صورت بی‌هوشی یا این علائم شدید، فوراً به کمک پزشکی نیاز است.')+
+  aidStep(5,'برای بیماران قلبی، فشار خون یا صرع','قطع ناگهانی دارو خطرناک است؛ اگر دارو تمام شد یا داروخانه در دسترس نبود، در اولین فرصت با اورژانس یا هر پزشک در دسترس مشورت کنید.')+
+  '</div>'+
+  aidCallout('info','ℹ️','یک کارت کوچک با نام بیماری، داروهای مصرفی و حساسیت‌های دارویی همیشه همراه فرد بیمار باشد؛ در «کارت اضطراری» همین برنامه می‌توانید این اطلاعات را ثبت کنید.')
 };
 Object.keys(AID).forEach(k=>{const el=(k==='cpr')?Q('#aid-cpr-text'):Q('#aid-'+k);el.innerHTML=AID[k]});
 document.querySelectorAll('#aidTabs .mini').forEach(b=>b.addEventListener('click',()=>{
@@ -2476,6 +2629,15 @@ function metroStop(){
 }
 Q('#metroToggle').addEventListener('click',()=>metroTimer?metroStop():metroStart());
 Q('#metroBpm').addEventListener('input',e=>{Q('#metroBpmLbl').textContent=fa(e.target.value);if(metroTimer)metroStart()});
+
+/* ---- آب: ماشین‌حساب مصرف ---- */
+function calcWater(){
+  const p=Math.max(1,+Q('#wPeople').value||1),d=Math.max(1,+Q('#wDays').value||1);
+  const drink=p*d*3.5,total=p*d*6;
+  Q('#wResult').innerHTML=`برای ${fa(p)} نفر در ${fa(d)} روز: حدود <b>${fa(Math.round(drink))} لیتر</b> فقط برای نوشیدن، و حدود <b>${fa(Math.round(total))} لیتر</b> در مجموع (نوشیدن + پخت‌وپز + بهداشت پایه).`;
+}
+Q('#wCalc').addEventListener('click',calcWater);
+calcWater();
 
 /* ---- ۴) آرام‌سازی / تمرین تنفس ---- */
 let calmTimer=null,calmStep=0;
