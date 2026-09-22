@@ -346,10 +346,10 @@ footer{margin-top:64px;border-top:1px solid var(--line);padding:26px 0 44px;colo
 .qb-fields{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:8px}
 .qb-fields .full{grid-column:1/-1}
 .qb label,.pp label.pl{display:block;font-size:12.5px;color:var(--mute);margin:0 0 3px}
-.qb select,.qb input,.pp input.pi,.pp textarea{
+.qb select,.qb input,.pp input.pi,.pp select.pi,.pp textarea{
   width:100%;height:42px;padding:0 12px;border:1px solid var(--line);background:var(--card);border-radius:12px;outline:0;color:var(--ink)}
 .pp textarea{height:auto;min-height:88px;padding:8px 12px;resize:vertical;font-family:inherit;line-height:1.8}
-.qb select:focus,.qb input:focus,.pp input.pi:focus,.pp textarea:focus{border-color:var(--a)}
+.qb select:focus,.qb input:focus,.pp input.pi:focus,.pp select.pi:focus,.pp textarea:focus{border-color:var(--a)}
 .qb-status{min-height:1.7em;font-size:13px;color:var(--mute);margin:10px 0 0}
 .qb-note{font-size:12px;color:var(--mute);line-height:1.9;margin-top:8px;border:1px dashed var(--line);border-radius:14px;padding:8px 12px}
 @media (max-width:760px){.qb{grid-template-columns:1fr}}
@@ -495,6 +495,13 @@ main.wrap{padding-bottom:76px}
 </style>
 </head>
 <body>
+<div id="pinLock" style="display:none;position:fixed;inset:0;z-index:2000;background:#0b0f1a;color:#fff;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;text-align:center">
+  <div style="font-size:40px">🔒</div>
+  <div style="font-size:15px">این برنامه با PIN قفل شده است</div>
+  <input id="pinTry" type="password" inputmode="numeric" style="width:160px;height:44px;text-align:center;font-size:20px;border-radius:12px;border:1px solid #444;background:#161c2b;color:#fff;direction:ltr" placeholder="PIN" autofocus>
+  <button type="button" id="pinTryBtn" style="height:42px;padding:0 22px;border-radius:12px;border:0;background:#7c9cff;color:#0b0f1a;font-weight:800;cursor:pointer">باز کردن</button>
+  <div id="pinTryErr" style="color:#ff8a8a;font-size:13px;min-height:1.4em"></div>
+</div>
 <div id="offlineBar" style="display:none;position:sticky;top:0;z-index:999;text-align:center;padding:8px 12px;font-size:13px;font-weight:700"></div>
 <header class="top">
   <div class="wrap">
@@ -695,6 +702,22 @@ main.wrap{padding-bottom:76px}
         <div><label class="pl" for="fm6">وظیفه‌ی هر نفر</label><textarea id="fm6" data-k="roles"></textarea></div>
       </div>
       <div class="pp-warn">اعضای خانواده باید بدانند اگر از هم جدا شدند کجا یکدیگر را پیدا کنند.</div>
+      <div class="emg-row" style="margin-top:10px">
+        <button type="button" class="emg-btn ghost" id="famExport">📄 خروجی متنی (برای چاپ یا ذخیره)</button>
+      </div>
+      <div class="emg-note" style="margin-top:14px">
+        <b>🔒 حریم خصوصی و امنیت داده‌ها</b><br>
+        این اطلاعات فقط روی همین مرورگر ذخیره می‌شود و به هیچ سروری ارسال نمی‌شود. روی iOS اگر برنامه را به صفحه‌ی اصلی اضافه نکنید، ممکن است مرورگر داده را بعد از حدود یک هفته بی‌استفاده‌بودن پاک کند؛ برای اطمینان، از «خروجی متنی» بالا هم نسخه‌ی پشتیبان بگیرید.
+        <div class="emg-row" style="margin-top:10px">
+          <div class="f"><label class="pl">قفل با PIN (اختیاری)</label><input class="pi" id="pinInput" type="password" inputmode="numeric" placeholder="مثلاً ۱۲۳۴" style="direction:ltr;text-align:left"></div>
+          <button type="button" class="emg-btn ghost" id="pinSet">🔒 تنظیم/تغییر PIN</button>
+          <button type="button" class="emg-btn ghost" id="pinClear">🔓 حذف PIN</button>
+        </div>
+        <div id="pinStatus" style="font-size:12.5px;color:var(--mute);margin-top:6px"></div>
+        <div class="emg-row" style="margin-top:10px">
+          <button type="button" class="emg-btn warn" id="wipeAll">🗑️ پاک کردن همه‌ی داده‌های این برنامه</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -909,6 +932,7 @@ const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelect
 const store={get(k,d){try{const v=localStorage.getItem('sabhad:'+k);return v==null?d:JSON.parse(v)}catch{return d}},set(k,v){try{localStorage.setItem('sabhad:'+k,JSON.stringify(v));return true}catch{return false}}};
 
 /* ===== نوار وضعیت آفلاین ===== */
+const faN=n=>Number(n).toLocaleString('fa-IR');
 function markDataUpdated(){store.set('lastDataUpdate',Date.now());renderOfflineBar()}
 function renderOfflineBar(){
   const bar=document.getElementById('offlineBar');if(!bar)return;
@@ -919,9 +943,9 @@ function renderOfflineBar(){
   if(t){
     const mins=Math.round((Date.now()-t)/60000);
     if(mins<1)ago='کمتر از یک دقیقه پیش';
-    else if(mins<60)ago=NF(mins)+' دقیقه پیش';
-    else if(mins<60*24)ago=NF(Math.round(mins/60))+' ساعت پیش';
-    else ago=NF(Math.round(mins/60/24))+' روز پیش';
+    else if(mins<60)ago=faN(mins)+' دقیقه پیش';
+    else if(mins<60*24)ago=faN(Math.round(mins/60))+' ساعت پیش';
+    else ago=faN(Math.round(mins/60/24))+' روز پیش';
   }
   bar.style.background='#3a1414';bar.style.color='#ffb4b4';
   bar.textContent='⚠️ آفلاین هستید — اخبار، قیمت و آب‌وهوا به‌روز نمی‌شوند (آخرین به‌روزرسانی: '+ago+'). ابزارهای اضطراری و کمک‌های اولیه همچنان کار می‌کنند.';
@@ -931,6 +955,26 @@ window.addEventListener('online',renderOfflineBar);
 window.addEventListener('offline',renderOfflineBar);
 document.addEventListener('DOMContentLoaded',renderOfflineBar);
 renderOfflineBar();
+
+/* ===== قفل PIN (اختیاری) ===== */
+function simpleHash(s){let h=0;for(let i=0;i<s.length;i++){h=(h<<5)-h+s.charCodeAt(i);h|=0}return String(h)}
+function pinCheckLock(){
+  const hash=store.get('pinHash',null);
+  const lockEl=document.getElementById('pinLock');
+  if(hash && sessionStorage.getItem('sabhadUnlocked')!=='1'){lockEl.style.display='flex'}
+  else{lockEl.style.display='none'}
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  pinCheckLock();
+  const tryBtn=document.getElementById('pinTryBtn'),tryInp=document.getElementById('pinTry'),err=document.getElementById('pinTryErr');
+  function attempt(){
+    const hash=store.get('pinHash',null);
+    if(!hash||simpleHash(tryInp.value)===hash){sessionStorage.setItem('sabhadUnlocked','1');document.getElementById('pinLock').style.display='none';err.textContent=''}
+    else{err.textContent='PIN اشتباه است.';tryInp.value=''}
+  }
+  tryBtn&&tryBtn.addEventListener('click',attempt);
+  tryInp&&tryInp.addEventListener('keydown',e=>{if(e.key==='Enter')attempt()});
+});
 
 /* ===== سه صفحه‌ی اصلی ===== */
 function showPage(p){
@@ -2279,7 +2323,9 @@ Q('#ppReset').addEventListener('click',()=>{
 const GUIDE=[
  ['از اخبار معتبر غافل نشوید','<p>دسترسی به اطلاعات درست در بحران می‌تواند جان شما را نجات دهد. به دنبال منابع موثق باشید و از شایعات دوری کنید، چون استرس و نگرانی را چند برابر می‌کنند.</p><ul><li>نقشه‌های آفلاین را روی گوشی نصب کنید، چون ممکن است مدتی اینترنت نداشته باشید.</li><li>روش‌های اشتراک‌گذاری آفلاین موقعیت را یاد بگیرید.</li></ul>'],
  ['پناهگاه‌های امن را شناسایی کنید','<p>پیش از تشدید جنگ، پناهگاه‌های اطراف را پیدا کنید. اگر می‌توانید بیرون بروید، به پناهگاه‌های عمومی بروید. برای مثال ایستگاه‌های مترو به پناهگاه تبدیل شده‌اند.</p><ul><li>اگر باید در خانه بمانید، تا جای ممکن آن را امن کنید و پنجره‌ها را چسب بزنید.</li><li>هنگام بمباران از شیشه‌ها دور بمانید.</li><li>روی زمین دراز بکشید و با دست‌ها از سرتان محافظت کنید.</li></ul>'],
- ['کوله و کیت اضطراری آماده کنید','<p>یک کیت در خانه و یک کوله‌ی آماده برای جابه‌جایی تهیه کنید. هر دو باید دست‌کم ۷۲ ساعت نیازهای شما را برطرف کنند.</p><ul><li><b>آب:</b> حداقل ۳ لیتر برای هر نفر در روز</li><li><b>غذای فاسدنشدنی:</b> کنسرو، شکلات، آجیل، گرانولا یا پروتئین‌بار</li><li><b>کمک‌های اولیه:</b> باند، مسکن و داروهای تجویزی</li><li><b>سایر وسایل:</b> چراغ قوه، پاوربانک، شمع، کپی مدارک، پول نقد، پتوی اضطراری، دفترچه و خودکار، رادیو</li></ul>'],
+ ['هنگام حمله چه کنید','<p>وقتی آژیر خطر یا صدای حمله را شنیدید، سریع و بدون هراس این مراحل را انجام دهید:</p><ul><li><b>اتاق امن پیدا کنید:</b> دورترین اتاق از پنجره و نمای بیرونی، ترجیحاً در طبقه‌ی پایین یا زیرزمین؛ حمام و راهروی بدون پنجره هم گزینه‌ی خوبی‌اند.</li><li><b>از شیشه فاصله بگیرید:</b> کنار پنجره نایستید؛ اگر پرده دارید بکشید تا از خرده‌شیشه در امان بمانید.</li><li><b>روی زمین بخوابید و سر را بپوشانید:</b> اگر پناهگاه در دسترس نیست، زیر میز محکم یا کنار دیوار داخلی دراز بکشید و با دست یا بالش از سر و گردن محافظت کنید.</li><li><b>گاز و شیر اصلی آب و برق را در صورت امکان و بدون خطر ببندید</b> تا از آتش‌سوزی یا نشت پس از آسیب دیدن ساختمان جلوگیری شود.</li></ul><p><b>بعد از حمله:</b></p><ul><li>فوراً بیرون ندوید؛ چند دقیقه صبر کنید تا مطمئن شوید حمله تمام شده.</li><li><b>به مهمات منفجرنشده دست نزنید</b> و از آن دور بمانید؛ محل را علامت بزنید (اگر امن است) و به نیروهای امداد اطلاع دهید.</li><li>اگر ساختمان آسیب دیده یا صدای ترک‌خوردن می‌آید، از احتمال ریزش آگاه باشید و فضای باز و امن را ترک نکنید تا اطمینان حاصل شود.</li><li>اگر بوی گاز، ماده‌ی شیمیایی غیرعادی یا دود غلیظ حس کردید، دهان و بینی را با پارچه‌ی مرطوب بپوشانید، در جهت مخالف باد حرکت کنید و از ارتفاع پایین (نزدیک زمین) دور شوید؛ در مواجهه با آلودگی احتمالی رادیولوژیک، سریع سرپناه بگیرید، لباس بیرونی را درآورید و در صورت امکان دوش بگیرید.</li><li>وضعیت مجروحان را با راهنمای «کمک‌های اولیه» همین برنامه بررسی کنید.</li></ul>'],
+ ['قطعی برق، سرما و مسمومیت با مونوکسیدکربن','<p>قطعی برق طولانی از پیامدهای رایج بحران است و خطرات خودش را دارد:</p><ul><li><b>هرگز ژنراتور، منقل یا بخاری بدون دودکش را داخل خانه یا فضای بسته روشن نکنید؛</b> مسمومیت با مونوکسیدکربن بی‌صدا و کشنده است (جزئیات کامل در تب «ابزارهای اضطراری ← کمک‌های اولیه ← مسمومیت با مونوکسیدکربن»).</li><li><b>غذای بدون برق:</b> یخچال را کمتر باز کنید تا سرما بیشتر بماند؛ مواد فسادپذیر را زودتر مصرف کنید و برای چند روز غذای فاسدنشدنی (کنسرو، خشکبار) ذخیره داشته باشید.</li><li><b>گرمایش زمستان:</b> لایه‌های لباس گرم، پتوی اضطراری و کیسه‌آب‌گرم را جایگزین ایمن‌تر بخاری‌های اضطراری کنید؛ اگر بخاری گازی یا نفتی روشن می‌کنید، حتماً پنجره را کمی باز بگذارید.</li><li>چراغ‌قوه و پاوربانک شارژشده همیشه در دسترس باشد.</li></ul>'],
+ ['کوله و کیت اضطراری آماده کنید','<p>یک کیت در خانه و یک کوله‌ی آماده برای جابه‌جایی تهیه کنید. هر دو باید دست‌کم ۷۲ ساعت نیازهای شما را برطرف کنند.</p><ul><li><b>آب:</b> حداقل ۳ لیتر برای هر نفر در روز (ماشین‌حساب دقیق در تب «ابزارهای اضطراری ← آب»)</li><li><b>غذای فاسدنشدنی:</b> کنسرو، شکلات، آجیل، گرانولا یا پروتئین‌بار</li><li><b>کمک‌های اولیه:</b> باند، مسکن و داروهای تجویزی</li><li><b>سایر وسایل:</b> چراغ قوه، پاوربانک، شمع، کپی مدارک، پول نقد، پتوی اضطراری، دفترچه و خودکار، رادیو</li></ul>'],
  ['برای خانواده‌تان استراتژی داشته باشید','<ul><li><b>مکان‌های ملاقات:</b> چند مکان مختلف تعیین کنید تا در صورت جدا شدن، دوباره یکدیگر را پیدا کنید.</li><li><b>شماره تلفن:</b> شماره‌ی اعضای خانواده را روی کاغذ بنویسید تا با گم شدن یا خاموش شدن گوشی هم داشته باشید.</li><li><b>تقسیم وظایف:</b> مثلاً یک نفر مسئول کیت اضطراری و یک نفر مراقب اعضای مسن خانواده باشد.</li></ul><p>برای نوشتن این موارد از تب «برگه خانواده» استفاده کنید.</p>'],
  ['مواد غذایی و لوازم ضروری کافی داشته باشید','<p>ممکن است شرایط جنگی چند هفته ادامه پیدا کند و نتوانید برای خرید بیرون بروید. برنج، کنسرو و ماکارونی به اندازه‌ی کافی ذخیره کنید. لوازم بهداشتی مثل صابون و همچنین دارو را هم فراموش نکنید. البته بیش از نیازتان تهیه نکنید.</p>'],
  ['کمک‌های اولیه را یاد بگیرید','<p>مجروح شدن پیامد رایج جنگ است. باید بتوانید:</p><ul><li>خونریزی را متوقف کنید.</li><li>سوختگی و شکستگی را تا حدی درمان کنید.</li><li>فرد شوکه‌شده را آرام کنید.</li><li>احیای قلبی ریوی (CPR) انجام دهید.</li></ul><p>یک دفترچه‌ی آموزش کمک‌های اولیه هم همراه داشته باشید.</p>'],
@@ -2337,6 +2383,34 @@ const BOOK=[
   });
 })();
 
+/* ---- خروجی متنی، قفل PIN و پاک‌کردن داده‌ها ---- */
+(function(){
+  const LABELS={meet1:'مکان ملاقات اول',meet2:'مکان ملاقات دوم',phones:'شماره تلفن‌ها',urgent:'آدرس/شماره‌های ضروری',medical:'داروها و گروه خونی',roles:'وظیفه هر نفر'};
+  Q('#famExport').addEventListener('click',()=>{
+    const data=st.get('ppNotes',{});
+    let txt='برگه خانواده — سبهد\n'+new Date().toLocaleDateString('fa-IR')+'\n\n';
+    Object.keys(LABELS).forEach(k=>{txt+=LABELS[k]+':\n'+(data[k]||'—')+'\n\n'});
+    const blob=new Blob([txt],{type:'text/plain'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='barge-khanevade.txt';a.click();
+  });
+  Q('#pinSet').addEventListener('click',()=>{
+    const v=Q('#pinInput').value.trim();
+    if(v.length<4){Q('#pinStatus').textContent='PIN باید حداقل ۴ رقم باشد.';return}
+    store.set('pinHash',simpleHash(v));sessionStorage.setItem('sabhadUnlocked','1');
+    Q('#pinInput').value='';Q('#pinStatus').textContent='PIN تنظیم شد. دفعه‌ی بعد که برنامه باز شود، این PIN لازم است.';
+  });
+  Q('#pinClear').addEventListener('click',()=>{
+    store.set('pinHash',null);Q('#pinStatus').textContent='PIN حذف شد.';
+  });
+  Q('#wipeAll').addEventListener('click',()=>{
+    if(confirm('همه‌ی داده‌های ذخیره‌شده‌ی این برنامه (مخاطبان، برگه خانواده، تیک‌ها، PIN و کش قیمت/خبر) روی این دستگاه پاک شود؟ این کار قابل بازگشت نیست.')){
+      Object.keys(localStorage).filter(k=>k.startsWith('sabhad:')).forEach(k=>localStorage.removeItem(k));
+      sessionStorage.removeItem('sabhadUnlocked');
+      location.reload();
+    }
+  });
+})();
+
 function ppTab(t){
   document.querySelectorAll('#ppTabs .mini').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
   document.querySelectorAll('.pp-pane').forEach(p=>p.classList.toggle('on',p.id==='pp-'+t));
@@ -2387,12 +2461,35 @@ Q('#ctPick').addEventListener('click',async()=>{
   }
 });
 function toastEmg(msg,cls){const s=Q('#safeStatus');s.textContent=msg;s.className='emg-status'+(cls?' '+cls:'')}
+Q('#msgType').addEventListener('change',()=>{
+  const t=Q('#msgType').value;
+  Q('#shelterWrap').style.display=(t==='shelter')?'':'none';
+  Q('#evacWrap').style.display=(t==='evac')?'':'none';
+});
 function safeMessage(coords){
   const now=new Date();
   const time=now.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});
+  const latin=Q('#msgLatin').checked;
+  const type=Q('#msgType').value;
   let loc='';
-  if(coords) loc=`\nموقعیت من: https://maps.google.com/?q=${coords.lat},${coords.lon}`;
-  return `من سالمم. ساعت ${fa(time)} پیام فرستادم.${loc}`;
+  if(coords) loc=(latin?`\nLocation: https://maps.google.com/?q=${coords.lat},${coords.lon}`:`\nموقعیت من: https://maps.google.com/?q=${coords.lat},${coords.lon}`);
+  if(latin){
+    const timeL=now.toTimeString().slice(0,5);
+    const base={
+      ok:`I am safe. ${timeL}.`,
+      hurt:`I am injured, need help. ${timeL}.`,
+      shelter:`At shelter: ${Q('#shelterName').value.trim()||'—'}. ${timeL}.`,
+      evac:`Evacuating to: ${Q('#evacDest').value.trim()||'—'}. ${timeL}.`
+    };
+    return base[type]+loc;
+  }
+  const base={
+    ok:`من سالمم. ساعت ${fa(time)} پیام فرستادم.`,
+    hurt:`مجروح شده‌ام، به کمک نیاز دارم. ساعت ${fa(time)}.`,
+    shelter:`در پناهگاه ${Q('#shelterName').value.trim()||'—'} هستم. ساعت ${fa(time)}.`,
+    evac:`در حال تخلیه به ${Q('#evacDest').value.trim()||'—'} هستم. ساعت ${fa(time)}.`
+  };
+  return base[type]+loc;
 }
 function getPos(){
   return new Promise(res=>{
